@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JavaScript練習【DOM操作・イベント編】</title>
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+  <header class="global-header">
+    <div class="header-inner">
+      <a href="../index.html" class="header-title">JavaScript</a>
+    </div>
+  </header>
+  <main>
+    <section id="dom-get">
+      <h2>1. DOM取得</h2>
+      <p>要素の取得方法（getElementById, querySelector）</p>
+      <pre><code>const el = document.getElementById('sample');
+const el2 = document.querySelector('.sample-class');</code></pre>
+      <button id="btn-dom-get">実行</button>
+      <div id="sample" class="sample-class">サンプル要素</div>
+      <div class="result" id="result-dom-get"></div>
+    </section>
+
+    <section id="event-listener">
+      <h2>2. イベントリスナー</h2>
+      <p>addEventListenerでクリックイベントを設定</p>
+      <pre><code>document.getElementById('btn-event').addEventListener('click', function() {
+  alert('クリックされました');
+});</code></pre>
+      <button id="btn-event">クリックしてみて！</button>
+      <div class="result" id="result-event"></div>
+    </section>
+
+    <section id="form-input">
+      <h2>3. フォームの入力取得</h2>
+      <p>input.valueやform.submit、preventDefault()の使い方</p>
+      <form id="sample-form">
+        <input type="text" id="input-text" placeholder="名前を入力">
+        <button type="submit">送信</button>
+      </form>
+      <pre><code>form.addEventListener('submit', function(e) {
+  e.preventDefault();
+  const value = input.value;
+});</code></pre>
+      <div class="result" id="result-form"></div>
+    </section>
+
+    <section id="classlist">
+      <h2>4. クラスの操作</h2>
+      <p>classList.add/remove/toggleの使い方</p>
+      <div id="class-target" class="box">クラス操作対象</div>
+      <button id="btn-add">add</button>
+      <button id="btn-remove">remove</button>
+      <button id="btn-toggle">toggle</button>
+      <pre><code>element.classList.add('active');
+element.classList.remove('active');
+element.classList.toggle('active');</code></pre>
+      <div class="result" id="result-classlist"></div>
+    </section>
+
+    <section id="style-change">
+      <h2>5. スタイル変更</h2>
+      <p>element.styleで色やサイズを変更</p>
+      <div id="style-target" class="box">スタイル変更対象</div>
+      <button id="btn-style">色を赤に</button>
+      <pre><code>element.style.color = "red";
+element.style.backgroundColor = "yellow";</code></pre>
+      <div class="result" id="result-style"></div>
+    </section>
+
+    <section id="node-manipulation">
+      <h2>6. ノードの追加・削除</h2>
+      <p>appendChild, removeChildの使い方</p>
+      <button id="btn-add-node">ノード追加</button>
+      <button id="btn-remove-node">ノード削除</button>
+      <div id="node-area"></div>
+      <pre><code>const newEl = document.createElement('div');
+parent.appendChild(newEl);
+parent.removeChild(newEl);</code></pre>
+      <div class="result" id="result-node"></div>
+    </section>
+
+    <section id="class-instance">
+      <h2>7. クラスとインスタンス</h2>
+      <p>JavaScriptのclass構文とインスタンス生成</p>
+      <pre><code>class Animal {
+  constructor(name) {
+    this.name = name;
+  }
+  greet() {
+    return `こんにちは、${this.name}です`;
+  }
+}
+const dog = new Animal('ポチ');
+dog.greet();</code></pre>
+      <button id="btn-class">実行</button>
+      <div class="result" id="result-class"></div>
+    </section>
+  </main>
+  <script src="../js/basic2.js"></script>
+</body>
+</html> 

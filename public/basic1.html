@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JavaScript練習用ページ</title>
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+  <header class="global-header">
+    <div class="header-inner">
+      <a href="../index.html" class="header-title">JavaScript</a>
+    </div>
+  </header>
+  <main>
+    <section id="intro">
+      <h2>JavaScriptとは？</h2>
+      <p>JavaScript（ジャバスクリプト）は、主にWebページに動きをつけたり、ユーザーの操作に応じて内容を変化させたりするために使われるプログラミング言語です。ブラウザ上で動作し、Web開発において欠かせない存在です。</p>
+    </section>
+
+    <!-- 1. 変数とデータ型 セクション開始 -->
+    <section id="section1">
+      <h2>1. 変数とデータ型</h2>
+      <p>JavaScriptの基本的なデータ型と変数宣言方法を学びます。</p>
+      <pre><code>let num = 10;
+const str = "こんにちは";
+let flag = true;
+let obj = { name: "Taro" };
+let arr = [1, 2, 3];</code></pre>
+      <button id="btn1">実行</button>
+      <div class="result" id="result1"></div>
+    </section>
+
+    <!-- 2. 演算子 セクション開始 -->
+    <section id="section2">
+      <h2>2. 演算子</h2>
+      <p>算術・比較・論理演算子の使い方を学びます。</p>
+      <pre><code>let a = 5;
+let b = 3;
+let sum = a + b;
+let isEqual = (a === b);
+let logic = (a > 2 && b < 5);</code></pre>
+      <button id="btn2">実行</button>
+      <div class="result" id="result2"></div>
+    </section>
+
+    <!-- 3. 制御構文 セクション開始 -->
+    <section id="section3">
+      <h2>3. 制御構文</h2>
+      <p>if文やforループなどの制御構文を学びます。</p>
+      <pre><code>let msg = "";
+for(let i=1; i<=3; i++) {
+  if(i % 2 === 0) {
+    msg += i + "は偶数\n";
+  } else {
+    msg += i + "は奇数\n";
+  }
+}</code></pre>
+      <button id="btn3">実行</button>
+      <div class="result" id="result3"></div>
+    </section>
+
+    <!-- 4. 関数 セクション開始 -->
+    <section id="section4">
+      <h2>4. 関数</h2>
+      <p>関数の定義と呼び出し、アロー関数について学びます。</p>
+      <pre><code>function greet(name) {
+  return "こんにちは、" + name + "さん";
+}
+const arrow = (x) => x * 2;</code></pre>
+      <button id="btn4">実行</button>
+      <div class="result" id="result4"></div>
+    </section>
+
+    <!-- 5. オブジェクトと配列 セクション開始 -->
+    <section id="section5">
+      <h2>5. オブジェクトと配列</h2>
+      <p>オブジェクトや配列の基本操作を学びます。</p>
+      <pre><code>let user = { name: "Hanako", age: 20 };
+let nums = [10, 20, 30];
+nums.push(40);
+let names = ["A", "B", "C"];
+let upper = names.map(n => n.toUpperCase());</code></pre>
+      <button id="btn5">実行</button>
+      <div class="result" id="result5"></div>
+    </section>
+
+    <!-- 5.5 配列操作 セクション開始 -->
+    <section id="sectionArray">
+      <h2>5.5 配列操作</h2>
+      <p>配列の主な操作（push, pop, shift, unshift, splice, map, filter, find）を学びます。</p>
+      <pre><code>let arr = [1, 2, 3, 4, 5];
+arr.push(6);      // [1,2,3,4,5,6]
+arr.pop();        // [1,2,3,4,5]
+arr.shift();      // [2,3,4,5]
+arr.unshift(0);   // [0,2,3,4,5]
+arr.splice(2,1,99); // [1,2,99,4,5]
+arr.map(x => x*2); // [2,4,6,8,10]
+arr.filter(x => x%2===0); // [2,4]
+arr.find(x => x>3); // 4</code></pre>
+      <button id="btnArray">実行</button>
+      <div class="result" id="resultArray"></div>
+    </section>
+
+    <!-- 6. イベントとDOM操作 セクション開始 -->
+    <section id="section6">
+      <h2>6. イベントとDOM操作</h2>
+      <p>ボタンを押すとテキストが変わるなど、DOM操作を体験します。</p>
+      <pre><code>document.getElementById('demo').textContent = "変更されました！";</code></pre>
+      <button id="btn6">実行</button>
+      <div id="demo">ここが変わります</div>
+    </section>
+
+    <!-- 7. エラー処理 セクション開始 -->
+    <section id="section7">
+      <h2>7. エラー処理</h2>
+      <p>try...catchによるエラー処理を学びます。</p>
+      <pre><code>try {
+  throw new Error("エラー発生！");
+} catch (e) {
+  console.log(e.message);
+}</code></pre>
+      <button id="btn7">実行</button>
+      <div class="result" id="result7"></div>
+    </section>
+
+    <!-- 8. ES6以降の新機能 セクション開始 -->
+    <section id="section8">
+      <h2>8. ES6以降の新機能</h2>
+      <p>テンプレートリテラルや分割代入、スプレッド構文などを学びます。</p>
+      <pre><code>const user = { name: "Jiro", age: 18 };
+const { name, age } = user;
+const arr1 = [1,2];
+const arr2 = [...arr1, 3];
+const msg = `名前: ${name}, 年齢: ${age}`;</code></pre>
+      <button id="btn8">実行</button>
+      <div class="result" id="result8"></div>
+    </section>
+  </main>
+
+  <script src="../js/basic1.js"></script>
+</body>
+</html> 
