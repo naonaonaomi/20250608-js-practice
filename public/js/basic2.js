@@ -1,106 +1,264 @@
 (function() {
   // DOM取得ユーティリティ
   const $ = (id) => document.getElementById(id);
+  
+  // コンソール出力をキャプチャして画面に表示する関数
+  function captureConsoleOutput(func) {
+    let output = [];
+    const originalLog = console.log;
+    
+    // console.logを一時的に置き換え
+    console.log = (...args) => {
+      // 引数を文字列に変換
+      const message = args.map(arg => {
+        if (typeof arg === 'object' && arg !== null) {
+          return JSON.stringify(arg, null, 2);
+        }
+        return String(arg);
+      }).join(' ');
+      output.push(message);
+      originalLog(...args); // 元のconsole.logも実行
+    };
+    
+    try {
+      func();
+    } finally {
+      // console.logを元に戻す
+      console.log = originalLog;
+    }
+    
+    return output;
+  }
+
+  // 結果表示のスタイル設定
+  function displayResult(resultElement, output) {
+    if (Array.isArray(output)) {
+      resultElement.innerHTML = output.map(line => `<div>${line}</div>`).join('');
+    } else {
+      resultElement.textContent = output;
+    }
+    resultElement.style.backgroundColor = '#f0f8ff';
+    resultElement.style.border = '1px solid #ddd';
+    resultElement.style.padding = '10px';
+    resultElement.style.margin = '10px 0';
+    resultElement.style.fontFamily = 'monospace';
+  }
 
   // 1. DOM取得
   const btnDomGet = $('btn-dom-get');
   if(btnDomGet) {
     btnDomGet.addEventListener('click', () => {
-      const el = $('sample');
-      const el2 = document.querySelector('.sample-class');
-      $('result-dom-get').textContent = `getElementById: ${el.textContent}, querySelector: ${el2.textContent}`;
+      const output = captureConsoleOutput(() => {
+        // IDで取得
+        let element1 = document.getElementById('sample');
+        console.log("IDで取得:", element1.textContent);
+
+        // クラス名で取得
+        let element2 = document.querySelector('.sample-class');
+        console.log("クラスで取得:", element2.textContent);
+
+        // タグ名で取得
+        let element3 = document.querySelector('div');
+        console.log("最初のdiv:", element3.textContent);
+      });
+      displayResult($('result-dom-get'), output);
     });
   }
 
   // 2. イベントリスナー
   const btnEvent = $('btn-event');
   if(btnEvent) {
-    btnEvent.addEventListener('click', () => {
-      $('result-event').textContent = 'クリックイベントが発動しました！';
+    // 画面に表示されているコードと同じ処理を設定
+    btnEvent.addEventListener('click', function() {
+      const output = captureConsoleOutput(() => {
+        console.log("ボタンがクリックされました！");
+        console.log("現在の時刻:", new Date().toLocaleTimeString());
+        console.log("クリック処理が完了しました");
+      });
+      displayResult($('result-event'), output);
     });
   }
 
   // 3. フォームの入力取得
   const form = $('sample-form');
   if(form) {
-    form.addEventListener('submit', function(e) {
-      e.preventDefault();
-      const value = $('input-text').value;
-      $('result-form').textContent = `入力値: ${value}`;
+    const input = $('input-text');
+    
+    form.addEventListener('submit', function(event) {
+      event.preventDefault(); // デフォルトの送信を停止
+      
+      const output = captureConsoleOutput(() => {
+        let inputValue = input.value;
+        console.log("入力された値:", inputValue);
+        
+        if (inputValue.trim() === "") {
+          console.log("エラー: 名前を入力してください");
+        } else {
+          console.log(`こんにちは、${inputValue}さん！`);
+          console.log("フォーム処理が完了しました");
+        }
+      });
+      displayResult($('result-form'), output);
     });
   }
 
   // 4. クラスの操作
   const classTarget = $('class-target');
   if(classTarget) {
+    // addボタンの処理
     const btnAdd = $('btn-add');
+    if(btnAdd) {
+      btnAdd.addEventListener('click', function() {
+        classTarget.classList.add('active');
+        const output = captureConsoleOutput(() => {
+          console.log("activeクラスを追加しました");
+          console.log("現在のクラス:", classTarget.className);
+        });
+        displayResult($('result-classlist'), output);
+      });
+    }
+
+    // removeボタンの処理
     const btnRemove = $('btn-remove');
+    if(btnRemove) {
+      btnRemove.addEventListener('click', function() {
+        classTarget.classList.remove('active');
+        const output = captureConsoleOutput(() => {
+          console.log("activeクラスを削除しました");
+          console.log("現在のクラス:", classTarget.className);
+        });
+        displayResult($('result-classlist'), output);
+      });
+    }
+
+    // toggleボタンの処理
     const btnToggle = $('btn-toggle');
-    const resultClass = $('result-classlist');
-    if(btnAdd) btnAdd.onclick = () => {
-      classTarget.classList.add('active');
-      resultClass.textContent = 'activeクラスを追加しました';
-    };
-    if(btnRemove) btnRemove.onclick = () => {
-      classTarget.classList.remove('active');
-      resultClass.textContent = 'activeクラスを削除しました';
-    };
-    if(btnToggle) btnToggle.onclick = () => {
-      classTarget.classList.toggle('active');
-      resultClass.textContent = 'activeクラスをトグルしました';
-    };
+    if(btnToggle) {
+      btnToggle.addEventListener('click', function() {
+        classTarget.classList.toggle('active');
+        const output = captureConsoleOutput(() => {
+          console.log("activeクラスを切り替えました");
+          console.log("現在のクラス:", classTarget.className);
+        });
+        displayResult($('result-classlist'), output);
+      });
+    }
   }
 
   // 5. スタイル変更
   const btnStyle = $('btn-style');
+  const btnResetStyle = $('btn-reset-style');
   const styleTarget = $('style-target');
+  
   if(btnStyle && styleTarget) {
-    btnStyle.onclick = () => {
-      styleTarget.style.color = 'red';
-      styleTarget.style.backgroundColor = 'yellow';
-      $('result-style').textContent = '色と背景色を変更しました';
-    };
+    btnStyle.addEventListener('click', function() {
+      styleTarget.style.color = "white";
+      styleTarget.style.backgroundColor = "red";
+      styleTarget.style.fontSize = "20px";
+      styleTarget.style.borderRadius = "10px";
+      
+      const output = captureConsoleOutput(() => {
+        console.log("スタイルを変更しました");
+        console.log("色:", styleTarget.style.color);
+        console.log("背景色:", styleTarget.style.backgroundColor);
+      });
+      displayResult($('result-style'), output);
+    });
+  }
+
+  if(btnResetStyle && styleTarget) {
+    btnResetStyle.addEventListener('click', function() {
+      styleTarget.style.color = "";
+      styleTarget.style.backgroundColor = "";
+      styleTarget.style.fontSize = "";
+      styleTarget.style.borderRadius = "";
+      
+      const output = captureConsoleOutput(() => {
+        console.log("スタイルをリセットしました");
+      });
+      displayResult($('result-style'), output);
+    });
   }
 
   // 6. ノードの追加・削除
   const btnAddNode = $('btn-add-node');
   const btnRemoveNode = $('btn-remove-node');
   const nodeArea = $('node-area');
-  let addedNode = null;
+  let addedElement = null;
+  
   if(btnAddNode && nodeArea) {
-    btnAddNode.onclick = () => {
-      if(!addedNode) {
-        addedNode = document.createElement('div');
-        addedNode.textContent = '追加されたノード';
-        nodeArea.appendChild(addedNode);
-        $('result-node').textContent = 'ノードを追加しました';
-      }
-    };
+    btnAddNode.addEventListener('click', function() {
+      const output = captureConsoleOutput(() => {
+        if (addedElement === null) {
+          // 新しい要素を作成
+          addedElement = document.createElement('div');
+          addedElement.textContent = '新しく追加された要素です！';
+          addedElement.style.backgroundColor = '#e1f5fe';
+          addedElement.style.padding = '10px';
+          addedElement.style.margin = '5px 0';
+          addedElement.style.borderRadius = '4px';
+          
+          // 要素を追加
+          nodeArea.appendChild(addedElement);
+          
+          console.log("新しい要素を追加しました");
+          console.log("追加した要素:", addedElement);
+        } else {
+          console.log("既に要素が追加されています");
+        }
+      });
+      displayResult($('result-node'), output);
+    });
   }
+  
   if(btnRemoveNode && nodeArea) {
-    btnRemoveNode.onclick = () => {
-      if(addedNode && nodeArea.contains(addedNode)) {
-        nodeArea.removeChild(addedNode);
-        $('result-node').textContent = 'ノードを削除しました';
-        addedNode = null;
-      }
-    };
+    btnRemoveNode.addEventListener('click', function() {
+      const output = captureConsoleOutput(() => {
+        if (addedElement && nodeArea.contains(addedElement)) {
+          nodeArea.removeChild(addedElement);
+          addedElement = null;
+          
+          console.log("要素を削除しました");
+        } else {
+          console.log("削除する要素がありません");
+        }
+      });
+      displayResult($('result-node'), output);
+    });
   }
 
   // 7. クラスとインスタンス
   const btnClass = $('btn-class');
   if(btnClass) {
-    btnClass.onclick = () => {
-      class Animal {
-        constructor(name) {
-          this.name = name;
+    btnClass.addEventListener('click', function() {
+      const output = captureConsoleOutput(() => {
+        // Animalクラスの定義
+        class Animal {
+          constructor(name, species) {
+            this.name = name;
+            this.species = species;
+            console.log(`${species}の${name}を作成しました`);
+          }
+          
+          greet() {
+            return `こんにちは、${this.species}の${this.name}です！`;
+          }
+          
+          info() {
+            return `名前: ${this.name}, 種類: ${this.species}`;
+          }
         }
-        greet() {
-          return `こんにちは、${this.name}です`;
-        }
-      }
-      const dog = new Animal('ポチ');
-      $('result-class').textContent = dog.greet();
-    };
+
+        // インスタンスの作成と使用
+        let dog = new Animal('ポチ', '犬');
+        let cat = new Animal('ミケ', '猫');
+
+        console.log(dog.greet());
+        console.log(cat.greet());
+        console.log("犬の情報:", dog.info());
+        console.log("猫の情報:", cat.info());
+      });
+      displayResult($('result-class'), output);
+    });
   }
 })(); 

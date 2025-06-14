@@ -14,92 +14,209 @@
   </header>
   <main>
     <section id="dom-get">
-      <h2>1. DOM取得</h2>
-      <p>要素の取得方法（getElementById, querySelector）</p>
-      <pre><code>const el = document.getElementById('sample');
-const el2 = document.querySelector('.sample-class');</code></pre>
-      <button id="btn-dom-get">実行</button>
-      <div id="sample" class="sample-class">サンプル要素</div>
+      <h2>10. DOM要素の取得</h2>
+      <p>様々な方法でHTML要素を取得する方法を学びます。</p>
+      <pre><code>// IDで取得
+let element1 = document.getElementById('sample');
+console.log("IDで取得:", element1.textContent);
+
+// クラス名で取得
+let element2 = document.querySelector('.sample-class');
+console.log("クラスで取得:", element2.textContent);
+
+// タグ名で取得
+let element3 = document.querySelector('div');
+console.log("最初のdiv:", element3.textContent);</code></pre>
+      <button id="btn-dom-get">実行してみる</button>
+      <div id="sample" class="sample-class" style="border: 1px solid #ccc; padding: 10px; margin: 10px 0;">サンプル要素</div>
       <div class="result" id="result-dom-get"></div>
     </section>
 
     <section id="event-listener">
-      <h2>2. イベントリスナー</h2>
-      <p>addEventListenerでクリックイベントを設定</p>
-      <pre><code>document.getElementById('btn-event').addEventListener('click', function() {
-  alert('クリックされました');
+      <h2>11. クリックイベントの処理</h2>
+      <p>ボタンがクリックされた時の処理を設定する方法を学びます。</p>
+      <pre><code>// ボタンを取得
+let button = document.getElementById('btn-event');
+
+// クリックイベントを設定
+button.addEventListener('click', function() {
+    console.log("ボタンがクリックされました！");
+    console.log("現在の時刻:", new Date().toLocaleTimeString());
+    console.log("クリック処理が完了しました");
 });</code></pre>
-      <button id="btn-event">クリックしてみて！</button>
+      <button id="btn-event" style="background: #4CAF50; color: white; padding: 10px; border: none; border-radius: 4px;">クリックしてみて！</button>
       <div class="result" id="result-event"></div>
     </section>
 
     <section id="form-input">
-      <h2>3. フォームの入力取得</h2>
-      <p>input.valueやform.submit、preventDefault()の使い方</p>
-      <form id="sample-form">
-        <input type="text" id="input-text" placeholder="名前を入力">
-        <button type="submit">送信</button>
+      <h2>12. フォーム入力の取得</h2>
+      <p>入力フィールドの値を取得し、フォーム送信を制御する方法を学びます。</p>
+      <form id="sample-form" style="margin: 10px 0;">
+        <input type="text" id="input-text" placeholder="名前を入力してください" style="padding: 8px; margin-right: 10px;">
+        <button type="submit" style="padding: 8px 16px; background: #2196F3; color: white; border: none; border-radius: 4px;">送信</button>
       </form>
-      <pre><code>form.addEventListener('submit', function(e) {
-  e.preventDefault();
-  const value = input.value;
+      <pre><code>// フォーム要素を取得
+let form = document.getElementById('sample-form');
+let input = document.getElementById('input-text');
+
+// 送信イベントを処理
+form.addEventListener('submit', function(event) {
+    event.preventDefault(); // デフォルトの送信を停止
+    
+    let inputValue = input.value;
+    console.log("入力された値:", inputValue);
+    
+    if (inputValue.trim() === "") {
+        console.log("エラー: 名前を入力してください");
+    } else {
+        console.log(`こんにちは、${inputValue}さん！`);
+        console.log("フォーム処理が完了しました");
+    }
 });</code></pre>
       <div class="result" id="result-form"></div>
     </section>
 
     <section id="classlist">
-      <h2>4. クラスの操作</h2>
-      <p>classList.add/remove/toggleの使い方</p>
-      <div id="class-target" class="box">クラス操作対象</div>
-      <button id="btn-add">add</button>
-      <button id="btn-remove">remove</button>
-      <button id="btn-toggle">toggle</button>
-      <pre><code>element.classList.add('active');
-element.classList.remove('active');
-element.classList.toggle('active');</code></pre>
+      <h2>13. CSSクラスの操作</h2>
+      <p>要素のCSSクラスを動的に追加・削除・切り替える方法を学びます。</p>
+      <div id="class-target" class="box" style="border: 1px solid #ccc; padding: 20px; margin: 10px 0; transition: all 0.3s;">クラス操作対象</div>
+      <button id="btn-add" style="margin: 5px; padding: 8px; background: #4CAF50; color: white; border: none; border-radius: 4px;">activeクラス追加</button>
+      <button id="btn-remove" style="margin: 5px; padding: 8px; background: #f44336; color: white; border: none; border-radius: 4px;">activeクラス削除</button>
+      <button id="btn-toggle" style="margin: 5px; padding: 8px; background: #FF9800; color: white; border: none; border-radius: 4px;">activeクラス切替</button>
+      <pre><code>let targetElement = document.getElementById('class-target');
+
+// addボタンの処理
+document.getElementById('btn-add').addEventListener('click', function() {
+    targetElement.classList.add('active');
+    console.log("activeクラスを追加しました");
+    console.log("現在のクラス:", targetElement.className);
+});
+
+// removeボタンの処理
+document.getElementById('btn-remove').addEventListener('click', function() {
+    targetElement.classList.remove('active');
+    console.log("activeクラスを削除しました");
+    console.log("現在のクラス:", targetElement.className);
+});
+
+// toggleボタンの処理
+document.getElementById('btn-toggle').addEventListener('click', function() {
+    targetElement.classList.toggle('active');
+    console.log("activeクラスを切り替えました");
+    console.log("現在のクラス:", targetElement.className);
+});</code></pre>
       <div class="result" id="result-classlist"></div>
     </section>
 
     <section id="style-change">
-      <h2>5. スタイル変更</h2>
-      <p>element.styleで色やサイズを変更</p>
-      <div id="style-target" class="box">スタイル変更対象</div>
-      <button id="btn-style">色を赤に</button>
-      <pre><code>element.style.color = "red";
-element.style.backgroundColor = "yellow";</code></pre>
+      <h2>14. 要素のスタイル変更</h2>
+      <p>JavaScriptから直接要素のスタイルを変更する方法を学びます。</p>
+      <div id="style-target" class="box" style="border: 1px solid #ccc; padding: 20px; margin: 10px 0; transition: all 0.3s;">スタイル変更対象</div>
+      <button id="btn-style" style="margin: 5px; padding: 8px; background: #9C27B0; color: white; border: none; border-radius: 4px;">スタイルを変更</button>
+      <button id="btn-reset-style" style="margin: 5px; padding: 8px; background: #607D8B; color: white; border: none; border-radius: 4px;">スタイルをリセット</button>
+      <pre><code>let styleTarget = document.getElementById('style-target');
+
+// スタイル変更ボタンの処理
+document.getElementById('btn-style').addEventListener('click', function() {
+    styleTarget.style.color = "white";
+    styleTarget.style.backgroundColor = "red";
+    styleTarget.style.fontSize = "20px";
+    styleTarget.style.borderRadius = "10px";
+    
+    console.log("スタイルを変更しました");
+    console.log("色:", styleTarget.style.color);
+    console.log("背景色:", styleTarget.style.backgroundColor);
+});
+
+// リセットボタンの処理
+document.getElementById('btn-reset-style').addEventListener('click', function() {
+    styleTarget.style.color = "";
+    styleTarget.style.backgroundColor = "";
+    styleTarget.style.fontSize = "";
+    styleTarget.style.borderRadius = "";
+    
+    console.log("スタイルをリセットしました");
+});</code></pre>
       <div class="result" id="result-style"></div>
     </section>
 
     <section id="node-manipulation">
-      <h2>6. ノードの追加・削除</h2>
-      <p>appendChild, removeChildの使い方</p>
-      <button id="btn-add-node">ノード追加</button>
-      <button id="btn-remove-node">ノード削除</button>
-      <div id="node-area"></div>
-      <pre><code>const newEl = document.createElement('div');
-parent.appendChild(newEl);
-parent.removeChild(newEl);</code></pre>
+      <h2>15. 要素の追加と削除</h2>
+      <p>新しい要素を作成して追加・削除する方法を学びます。</p>
+      <button id="btn-add-node" style="margin: 5px; padding: 8px; background: #4CAF50; color: white; border: none; border-radius: 4px;">要素を追加</button>
+      <button id="btn-remove-node" style="margin: 5px; padding: 8px; background: #f44336; color: white; border: none; border-radius: 4px;">要素を削除</button>
+      <div id="node-area" style="border: 1px dashed #ccc; min-height: 50px; padding: 10px; margin: 10px 0;"></div>
+      <pre><code>let nodeArea = document.getElementById('node-area');
+let addedElement = null;
+
+// 追加ボタンの処理
+document.getElementById('btn-add-node').addEventListener('click', function() {
+    if (addedElement === null) {
+        // 新しい要素を作成
+        addedElement = document.createElement('div');
+        addedElement.textContent = '新しく追加された要素です！';
+        addedElement.style.backgroundColor = '#e1f5fe';
+        addedElement.style.padding = '10px';
+        addedElement.style.margin = '5px 0';
+        addedElement.style.borderRadius = '4px';
+        
+        // 要素を追加
+        nodeArea.appendChild(addedElement);
+        
+        console.log("新しい要素を追加しました");
+        console.log("追加した要素:", addedElement);
+    } else {
+        console.log("既に要素が追加されています");
+    }
+});
+
+// 削除ボタンの処理
+document.getElementById('btn-remove-node').addEventListener('click', function() {
+    if (addedElement && nodeArea.contains(addedElement)) {
+        nodeArea.removeChild(addedElement);
+        addedElement = null;
+        
+        console.log("要素を削除しました");
+    } else {
+        console.log("削除する要素がありません");
+    }
+});</code></pre>
       <div class="result" id="result-node"></div>
     </section>
 
     <section id="class-instance">
-      <h2>7. クラスとインスタンス</h2>
-      <p>JavaScriptのclass構文とインスタンス生成</p>
-      <pre><code>class Animal {
-  constructor(name) {
-    this.name = name;
-  }
-  greet() {
-    return `こんにちは、${this.name}です`;
-  }
+      <h2>16. クラスとインスタンス</h2>
+      <p>JavaScriptのclass構文を使ったオブジェクト指向プログラミングを学びます。</p>
+      <pre><code>// Animalクラスの定義
+class Animal {
+    constructor(name, species) {
+        this.name = name;
+        this.species = species;
+        console.log(`${species}の${name}を作成しました`);
+    }
+    
+    greet() {
+        return `こんにちは、${this.species}の${this.name}です！`;
+    }
+    
+    info() {
+        return `名前: ${this.name}, 種類: ${this.species}`;
+    }
 }
-const dog = new Animal('ポチ');
-dog.greet();</code></pre>
-      <button id="btn-class">実行</button>
+
+// インスタンスの作成と使用
+let dog = new Animal('ポチ', '犬');
+let cat = new Animal('ミケ', '猫');
+
+console.log(dog.greet());
+console.log(cat.greet());
+console.log("犬の情報:", dog.info());
+console.log("猫の情報:", cat.info());</code></pre>
+      <button id="btn-class" style="margin: 5px; padding: 8px; background: #3F51B5; color: white; border: none; border-radius: 4px;">実行してみる</button>
       <div class="result" id="result-class"></div>
     </section>
     <div style="text-align:center; margin: 0 0 20px 0;">
-      <button onclick="location.href='basic1.html'">◀ 前のページへ</button>
+      <button onclick="location.href='basic1.html'" style="padding: 10px 20px; background: #607D8B; color: white; border: none; border-radius: 4px;">◀ 前のページへ</button>
     </div>
   </main>
   <script src="../js/basic2.js"></script>

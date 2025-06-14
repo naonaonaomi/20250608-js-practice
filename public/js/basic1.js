@@ -1,6 +1,34 @@
 (function() {
   // DOM取得ユーティリティ
   const $ = (id) => document.getElementById(id);
+  
+  // コンソール出力をキャプチャして画面に表示する関数
+  function captureConsoleOutput(func) {
+    let output = [];
+    const originalLog = console.log;
+    
+    // console.logを一時的に置き換え
+    console.log = (...args) => {
+      // 引数を文字列に変換
+      const message = args.map(arg => {
+        if (typeof arg === 'object') {
+          return JSON.stringify(arg, null, 2);
+        }
+        return String(arg);
+      }).join(' ');
+      output.push(message);
+      originalLog(...args); // 元のconsole.logも実行
+    };
+    
+    try {
+      func();
+    } finally {
+      // console.logを元に戻す
+      console.log = originalLog;
+    }
+    
+    return output;
+  }
 
   // ボタンと結果IDのペア
   const actions = [
@@ -8,109 +36,218 @@
       btn: 'btn1',
       result: 'result1',
       handler: () => {
-        let num = 10;
-        const str = "こんにちは";
-        let flag = true;
-        let obj = { name: "Taro" };
-        let arr = [1, 2, 3];
-        return `num: ${num}, str: ${str}, flag: ${flag}, obj.name: ${obj.name}, arr: [${arr}]`;
+        return captureConsoleOutput(() => {
+          // 数値
+          let age = 25;
+          console.log("年齢:", age);
+
+          // 文字列
+          let name = "田中太郎";
+          console.log("名前:", name);
+
+          // 真偽値
+          let isStudent = true;
+          console.log("学生か:", isStudent);
+
+          // オブジェクト
+          let person = { name: "佐藤", age: 30 };
+          console.log("人物:", person);
+
+          // 配列
+          let colors = ["赤", "青", "緑"];
+          console.log("色:", colors);
+        });
       }
     },
     {
       btn: 'btn2',
       result: 'result2',
       handler: () => {
-        let a = 5;
-        let b = 3;
-        let sum = a + b;
-        let isEqual = (a === b);
-        let logic = (a > 2 && b < 5);
-        return `a + b = ${sum}, a === b: ${isEqual}, (a > 2 && b < 5): ${logic}`;
+        return captureConsoleOutput(() => {
+          // 算術演算子
+          let x = 10;
+          let y = 3;
+          console.log("x + y =", x + y);
+          console.log("x - y =", x - y);
+          console.log("x * y =", x * y);
+          console.log("x / y =", x / y);
+
+          // 比較演算子
+          console.log("x > y:", x > y);
+          console.log("x === y:", x === y);
+
+          // 論理演算子
+          let isAdult = x > 18;
+          let hasLicense = true;
+          console.log("運転可能:", isAdult && hasLicense);
+        });
       }
     },
     {
       btn: 'btn3',
       result: 'result3',
       handler: () => {
-        let msg = "";
-        for(let i=1; i<=3; i++) {
-          msg += i + (i % 2 === 0 ? "は偶数\n" : "は奇数\n");
-        }
-        return msg;
+        return captureConsoleOutput(() => {
+          // if文の例
+          let score = 85;
+          if (score >= 90) {
+              console.log("優秀です！");
+          } else if (score >= 70) {
+              console.log("良い成績です");
+          } else {
+              console.log("もう少し頑張りましょう");
+          }
+
+          // forループの例
+          console.log("--- 1から5まで ---");
+          for (let i = 1; i <= 5; i++) {
+              console.log(`${i}回目のループ`);
+          }
+        });
       }
     },
     {
       btn: 'btn4',
       result: 'result4',
       handler: () => {
-        function greet(name) {
-          return "こんにちは、" + name + "さん";
-        }
-        const arrow = (x) => x * 2;
-        return greet("太郎") + ", 2*5=" + arrow(5);
+        return captureConsoleOutput(() => {
+          // 通常の関数
+          function greet(name) {
+              return `こんにちは、${name}さん！`;
+          }
+
+          // アロー関数
+          const double = (num) => num * 2;
+
+          // 関数の実行
+          console.log(greet("山田"));
+          console.log("5の2倍は:", double(5));
+
+          // 引数が複数の関数
+          const add = (a, b) => {
+              let result = a + b;
+              return `${a} + ${b} = ${result}`;
+          }
+          console.log(add(3, 7));
+        });
       }
     },
     {
       btn: 'btn5',
       result: 'result5',
       handler: () => {
-        let user = { name: "Hanako", age: 20 };
-        let nums = [10, 20, 30];
-        nums.push(40);
-        let names = ["A", "B", "C"];
-        let upper = names.map(n => n.toUpperCase());
-        return `user: ${user.name}(${user.age}), nums: [${nums}], upper: [${upper}]`;
+        return captureConsoleOutput(() => {
+          // オブジェクトの作成と操作
+          let student = {
+              name: "鈴木花子",
+              age: 20,
+              grade: "A"
+          };
+          console.log("学生情報:", student);
+          console.log("名前:", student.name);
+
+          // 配列の作成と操作
+          let fruits = ["りんご", "バナナ", "オレンジ"];
+          console.log("果物リスト:", fruits);
+          fruits.push("ぶどう");
+          console.log("ぶどう追加後:", fruits);
+          console.log("最初の果物:", fruits[0]);
+        });
       }
     },
     {
       btn: 'btnArray',
       result: 'resultArray',
       handler: () => {
-        let arr = [1, 2, 3, 4, 5];
-        let pushed = [...arr]; pushed.push(6);
-        let popped = [...arr]; popped.pop();
-        let shifted = [...arr]; shifted.shift();
-        let unshifted = [...arr]; unshifted.unshift(0);
-        let spliced = [...arr]; spliced.splice(2, 1, 99);
-        let mapped = arr.map(x => x * 2);
-        let filtered = arr.filter(x => x % 2 === 0);
-        let found = arr.find(x => x > 3);
-        return `元配列: [${arr}]\n` +
-          `push(6): [${pushed}]\n` +
-          `pop(): [${popped}]\n` +
-          `shift(): [${shifted}]\n` +
-          `unshift(0): [${unshifted}]\n` +
-          `splice(2,1,99): [${spliced}]\n` +
-          `map(x*2): [${mapped}]\n` +
-          `filter(偶数): [${filtered}]\n` +
-          `find(>3): ${found}`;
+        return captureConsoleOutput(() => {
+          let numbers = [1, 2, 3, 4, 5];
+          console.log("元の配列:", numbers);
+
+          // map: 各要素を変換
+          let doubled = numbers.map(num => num * 2);
+          console.log("2倍にした配列:", doubled);
+
+          // filter: 条件に合う要素だけ抽出
+          let evenNumbers = numbers.filter(num => num % 2 === 0);
+          console.log("偶数だけ:", evenNumbers);
+
+          // find: 条件に合う最初の要素を取得
+          let foundNumber = numbers.find(num => num > 3);
+          console.log("3より大きい最初の数:", foundNumber);
+
+          // forEach: 各要素に対して処理実行
+          console.log("--- 各要素の表示 ---");
+          numbers.forEach((num, index) => {
+              console.log(`${index}番目: ${num}`);
+          });
+        });
       }
     },
     {
       btn: 'btn6',
-      result: 'demo',
-      handler: () => "変更されました！"
+      result: 'result6',
+      handler: () => {
+        return captureConsoleOutput(() => {
+          // 要素を取得
+          let targetElement = document.getElementById('demo');
+          console.log("取得した要素:", targetElement);
+
+          // 要素の内容を変更
+          targetElement.textContent = "JavaScriptで変更されました！";
+          console.log("テキストを変更しました");
+
+          // 要素のスタイルも変更
+          targetElement.style.color = "blue";
+          targetElement.style.fontWeight = "bold";
+          console.log("スタイルも変更しました");
+        });
+      }
     },
     {
       btn: 'btn7',
       result: 'result7',
       handler: () => {
-        try {
-          throw new Error("エラー発生！");
-        } catch (e) {
-          return e.message;
-        }
+        return captureConsoleOutput(() => {
+          try {
+              console.log("処理を開始します");
+              
+              // わざとエラーを発生させる
+              let result = 10 / 0;  // 0で割る
+              if (!isFinite(result)) {
+                  throw new Error("不正な計算結果です");
+              }
+              
+          } catch (error) {
+              console.log("エラーが発生:", error.message);
+              console.log("エラーを正常に処理しました");
+          } finally {
+              console.log("処理を終了します");
+          }
+        });
       }
     },
     {
       btn: 'btn8',
       result: 'result8',
       handler: () => {
-        const user = { name: "Jiro", age: 18 };
-        const { name, age } = user;
-        const arr1 = [1,2];
-        const arr2 = [...arr1, 3];
-        return `名前: ${name}, 年齢: ${age}, arr2: [${arr2}]`;
+        return captureConsoleOutput(() => {
+          // テンプレートリテラル
+          let userName = "田中";
+          let userAge = 25;
+          let message = `ユーザー名: ${userName}, 年齢: ${userAge}歳`;
+          console.log(message);
+
+          // 分割代入
+          let user = { name: "佐藤", age: 30, city: "東京" };
+          let { name, age, city } = user;
+          console.log(`${name}さんは${age}歳、${city}在住です`);
+
+          // スプレッド構文
+          let arr1 = [1, 2, 3];
+          let arr2 = [...arr1, 4, 5];
+          console.log("元の配列:", arr1);
+          console.log("拡張した配列:", arr2);
+        });
       }
     }
   ];
@@ -121,7 +258,17 @@
     const resultEl = $(result);
     if (button && resultEl) {
       button.addEventListener('click', () => {
-        resultEl.textContent = handler();
+        const output = handler();
+        if (Array.isArray(output)) {
+          resultEl.innerHTML = output.map(line => `<div>${line}</div>`).join('');
+        } else {
+          resultEl.textContent = output;
+        }
+        resultEl.style.backgroundColor = '#f0f8ff';
+        resultEl.style.border = '1px solid #ddd';
+        resultEl.style.padding = '10px';
+        resultEl.style.margin = '10px 0';
+        resultEl.style.fontFamily = 'monospace';
       });
     }
   });
