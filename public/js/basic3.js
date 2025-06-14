@@ -2,6 +2,9 @@
   // DOM取得ユーティリティ
   const $ = (id) => document.getElementById(id);
   
+  // デバッグ用: ページ読み込み時にコンソールに出力
+  console.log('basic3.js が読み込まれました');
+  
   // コンソール出力をキャプチャして画面に表示する関数
   function captureConsoleOutput(func) {
     let output = [];
@@ -77,13 +80,27 @@
   // 1. 非同期処理（Promise・async/await）
   const btnAsync = $('btn-async');
   if(btnAsync) {
-    btnAsync.addEventListener('click', function() {
+    btnAsync.addEventListener('click', async function() {
       // まず実行中メッセージを表示
       displayResult($('result-async'), ['⏳ 2秒間お待ちください...']);
       
       // 非同期処理を実行
-      setTimeout(() => {
-        const output = captureConsoleOutput(() => {
+      setTimeout(async () => {
+        const output = [];
+        const originalLog = console.log;
+        
+        console.log = (...args) => {
+          const message = args.map(arg => {
+            if (typeof arg === 'object' && arg !== null) {
+              return JSON.stringify(arg, null, 2);
+            }
+            return String(arg);
+          }).join(' ');
+          output.push(message);
+          originalLog(...args);
+        };
+
+        try {
           // Promiseを使った非同期処理
           function fetchUserData(userId) {
             return new Promise((resolve, reject) => {
@@ -114,9 +131,11 @@
             }
           }
 
-          getUserInfo();
-        });
-        displayResult($('result-async'), output);
+          await getUserInfo();
+        } finally {
+          console.log = originalLog;
+          displayResult($('result-async'), output);
+        }
       }, 2000);
     });
   }
@@ -231,12 +250,14 @@
         let phones = testPhone.match(phoneRegex);
         console.log("見つかった電話番号:", phones);
 
-        // 文字列の置換
-        let cleanText = text.replace(emailRegex, "[メールアドレス]");
+        // 文字列の置換（新しい正規表現インスタンスを使用）
+        let emailRegexForReplace = /[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/g;
+        let cleanText = text.replace(emailRegexForReplace, "[メールアドレス]");
         console.log("置換後:", cleanText);
 
-        // パターンの検証
-        let isEmail = emailRegex.test(text);
+        // パターンの検証（新しい正規表現インスタンスを使用）
+        let emailRegexForTest = /[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/;
+        let isEmail = emailRegexForTest.test(text);
         console.log("メールアドレスが含まれているか:", isEmail);
       });
       displayResult($('result-regex'), output);
@@ -257,7 +278,11 @@
         console.log = (...args) => {
           const message = args.map(arg => {
             if (typeof arg === 'object' && arg !== null) {
-              return JSON.stringify(arg, null, 2);
+              try {
+                return JSON.stringify(arg, null, 2);
+              } catch (e) {
+                return String(arg);
+              }
             }
             return String(arg);
           }).join(' ');
@@ -282,8 +307,8 @@
               console.log("取得成功!");
               console.log("ユーザー名:", userData.name);
               console.log("メール:", userData.email);
-              console.log("会社:", userData.company.name);
-              console.log("住所:", userData.address.city);
+              console.log("会社:", userData.company ? userData.company.name : "未設定");
+              console.log("住所:", userData.address ? userData.address.city : "未設定");
               
               return userData;
             } catch (error) {
@@ -301,6 +326,8 @@
           }
 
           await fetchRandomUser();
+        } catch (error) {
+          console.log("予期しないエラー:", error.message);
         } finally {
           console.log = originalLog;
           displayResult($('result-fetch'), output);
