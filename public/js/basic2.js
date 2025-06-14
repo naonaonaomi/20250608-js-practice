@@ -261,4 +261,127 @@
       displayResult($('result-class'), output);
     });
   }
+
+  // 8. JSON データの操作
+  const btnJson = $('btn-json');
+  if(btnJson) {
+    btnJson.addEventListener('click', function() {
+      const output = captureConsoleOutput(() => {
+        // オブジェクトをJSON文字列に変換
+        let user = {
+          name: "田中太郎",
+          age: 25,
+          hobbies: ["読書", "映画鑑賞", "プログラミング"]
+        };
+
+        let jsonString = JSON.stringify(user);
+        console.log("JSON文字列:", jsonString);
+
+        // JSON文字列をオブジェクトに変換
+        let parsedUser = JSON.parse(jsonString);
+        console.log("解析されたオブジェクト:", parsedUser);
+        console.log("名前:", parsedUser.name);
+        console.log("趣味:", parsedUser.hobbies.join(", "));
+      });
+      displayResult($('result-json'), output);
+    });
+  }
+
+  // 9. ローカルストレージ
+  const btnSaveStorage = $('btn-save-storage');
+  const btnStorage = $('btn-storage');
+  const btnClearStorage = $('btn-clear-storage');
+  const storageInput = $('storage-input');
+
+  if(btnSaveStorage && storageInput) {
+    btnSaveStorage.addEventListener('click', function() {
+      const output = captureConsoleOutput(() => {
+        let message = storageInput.value;
+        if (message.trim() === "") {
+          console.log("エラー: メッセージを入力してください");
+          return;
+        }
+        localStorage.setItem('userMessage', message);
+        console.log("保存しました:", message);
+      });
+      displayResult($('result-storage'), output);
+    });
+  }
+
+  if(btnStorage) {
+    btnStorage.addEventListener('click', function() {
+      const output = captureConsoleOutput(() => {
+        // ローカルストレージからデータを取得
+        let savedMessage = localStorage.getItem('userMessage');
+        console.log("取得したデータ:", savedMessage);
+
+        // 全てのデータを確認
+        console.log("ローカルストレージの内容:", localStorage);
+      });
+      displayResult($('result-storage'), output);
+    });
+  }
+
+  if(btnClearStorage) {
+    btnClearStorage.addEventListener('click', function() {
+      const output = captureConsoleOutput(() => {
+        localStorage.removeItem('userMessage');
+        console.log("データを削除しました");
+      });
+      displayResult($('result-storage'), output);
+    });
+  }
+
+  // 10. タイマー機能
+  let seconds = 0;
+  let timerInterval = null;
+  const btnStartTimer = $('btn-start-timer');
+  const btnStopTimer = $('btn-stop-timer');
+  const timerDisplay = $('timer-display');
+
+  function startTimer() {
+    if (timerInterval === null) {
+      timerInterval = setInterval(() => {
+        seconds++;
+        let minutes = Math.floor(seconds / 60);
+        let remainingSeconds = seconds % 60;
+        let timeString = `${minutes.toString().padStart(2, '0')}:${remainingSeconds.toString().padStart(2, '0')}`;
+        
+        if(timerDisplay) {
+          timerDisplay.textContent = timeString;
+        }
+      }, 1000);
+    }
+  }
+
+  function stopTimer() {
+    if (timerInterval !== null) {
+      clearInterval(timerInterval);
+      timerInterval = null;
+      seconds = 0;
+      if(timerDisplay) {
+        timerDisplay.textContent = "00:00";
+      }
+    }
+  }
+
+  if(btnStartTimer) {
+    btnStartTimer.addEventListener('click', function() {
+      const output = captureConsoleOutput(() => {
+        console.log("タイマーを開始しました");
+      });
+      startTimer();
+      displayResult($('result-timer'), output);
+    });
+  }
+
+  if(btnStopTimer) {
+    btnStopTimer.addEventListener('click', function() {
+      const output = captureConsoleOutput(() => {
+        console.log("タイマーを停止しました");
+      });
+      stopTimer();
+      displayResult($('result-timer'), output);
+    });
+  }
 })(); 

@@ -215,8 +215,97 @@ console.log("猫の情報:", cat.info());</code></pre>
       <button id="btn-class">実行してみる</button>
       <div class="result" id="result-class"></div>
     </section>
+
+    <section id="json-data">
+      <h2>17. JSON データの操作</h2>
+      <p>データをJSON形式で保存・読み込みする方法を学びます。</p>
+      <pre><code>// オブジェクトをJSON文字列に変換
+let user = {
+    name: "田中太郎",
+    age: 25,
+    hobbies: ["読書", "映画鑑賞", "プログラミング"]
+};
+
+let jsonString = JSON.stringify(user);
+console.log("JSON文字列:", jsonString);
+
+// JSON文字列をオブジェクトに変換
+let parsedUser = JSON.parse(jsonString);
+console.log("解析されたオブジェクト:", parsedUser);
+console.log("名前:", parsedUser.name);
+console.log("趣味:", parsedUser.hobbies.join(", "));</code></pre>
+      <button id="btn-json">実行してみる</button>
+      <div class="result" id="result-json"></div>
+    </section>
+
+    <section id="local-storage">
+      <h2>18. ローカルストレージ</h2>
+      <p>ブラウザにデータを保存・取得する方法を学びます。</p>
+      <div style="margin: 10px 0;">
+        <input type="text" id="storage-input" placeholder="保存したいメッセージを入力" style="width: 70%; padding: 8px; margin-right: 10px;">
+        <button id="btn-save-storage" style="padding: 8px 16px;">保存</button>
+      </div>
+      <pre><code>// データをローカルストレージに保存
+let message = document.getElementById('storage-input').value;
+localStorage.setItem('userMessage', message);
+console.log("保存しました:", message);
+
+// ローカルストレージからデータを取得
+let savedMessage = localStorage.getItem('userMessage');
+console.log("取得したデータ:", savedMessage);
+
+// データを削除
+// localStorage.removeItem('userMessage');
+// console.log("データを削除しました");
+
+// 全てのデータを確認
+console.log("ローカルストレージの内容:", localStorage);</code></pre>
+      <button id="btn-storage">データを取得</button>
+      <button id="btn-clear-storage" style="background: #f44336;">データを削除</button>
+      <div class="result" id="result-storage"></div>
+    </section>
+
+    <section id="timer-functions">
+      <h2>19. タイマー機能</h2>
+      <p>時間を使った処理（遅延実行・繰り返し実行）を学びます。</p>
+      <div id="timer-display" style="font-size: 24px; font-weight: bold; text-align: center; padding: 20px; background: #f0f8ff; border-radius: 10px; margin: 10px 0;">00:00</div>
+      <button id="btn-start-timer">タイマー開始</button>
+      <button id="btn-stop-timer" style="background: #f44336;">タイマー停止</button>
+      <pre><code>let seconds = 0;
+let timerInterval = null;
+
+// タイマー開始
+function startTimer() {
+    if (timerInterval === null) {
+        timerInterval = setInterval(() => {
+            seconds++;
+            let minutes = Math.floor(seconds / 60);
+            let remainingSeconds = seconds % 60;
+            let timeString = `${minutes.toString().padStart(2, '0')}:${remainingSeconds.toString().padStart(2, '0')}`;
+            
+            document.getElementById('timer-display').textContent = timeString;
+            console.log("経過時間:", timeString);
+        }, 1000);
+        console.log("タイマーを開始しました");
+    }
+}
+
+// タイマー停止
+function stopTimer() {
+    if (timerInterval !== null) {
+        clearInterval(timerInterval);
+        timerInterval = null;
+        seconds = 0;
+        document.getElementById('timer-display').textContent = "00:00";
+        console.log("タイマーを停止しました");
+    }
+}</code></pre>
+      <div class="result" id="result-timer"></div>
+    </section>
+
     <div style="text-align:center; margin: 0 0 20px 0;">
-      <button onclick="location.href='basic1.html'">◀ 前のページへ</button>
+      <button onclick="location.href='basic1.html'">◀ 基礎編へ</button>
+      <button onclick="location.href='basic3.html'">上級編へ ▶</button>
     </div>
   </main>
   <script src="../js/basic2.js"></script>
