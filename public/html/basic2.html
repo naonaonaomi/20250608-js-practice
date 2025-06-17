@@ -51,10 +51,6 @@ button.addEventListener('click', function() {
     <section id="form-input">
       <h2>12. フォーム入力の取得</h2>
       <p>入力フィールドの値を取得し、フォーム送信を制御する方法を学びます。</p>
-      <form id="sample-form" style="margin: 10px 0;">
-        <input type="text" id="input-text" placeholder="名前を入力してください" style="padding: 8px; margin-right: 10px;">
-        <button type="submit">送信</button>
-      </form>
       <pre><code>// フォーム要素を取得
 let form = document.getElementById('sample-form');
 let input = document.getElementById('input-text');
@@ -73,16 +69,15 @@ form.addEventListener('submit', function(event) {
         console.log("フォーム処理が完了しました");
     }
 });</code></pre>
+      <form id="sample-form">
+        <input type="text" id="input-text" placeholder="名前を入力">
+        <button type="submit">送信</button>
+      </form>
       <div class="result" id="result-form"></div>
     </section>
 
     <section id="classlist">
       <h2>13. CSSクラスの操作</h2>
-      <p>要素のCSSクラスを動的に追加・削除・切り替える方法を学びます。</p>
-      <div id="class-target" class="box" style="border: 1px solid #ccc; padding: 20px; margin: 10px 0; transition: all 0.3s;">クラス操作対象</div>
-      <button id="btn-add" style="margin: 5px; padding: 8px; background: #4CAF50; color: white; border: none; border-radius: 4px;">activeクラス追加</button>
-      <button id="btn-remove" style="margin: 5px; padding: 8px; background: #f44336; color: white; border: none; border-radius: 4px;">activeクラス削除</button>
-      <button id="btn-toggle" style="margin: 5px; padding: 8px; background: #FF9800; color: white; border: none; border-radius: 4px;">activeクラス切替</button>
       <pre><code>let targetElement = document.getElementById('class-target');
 
 // addボタンの処理
@@ -105,15 +100,17 @@ document.getElementById('btn-toggle').addEventListener('click', function() {
     console.log("activeクラスを切り替えました");
     console.log("現在のクラス:", targetElement.className);
 });</code></pre>
+      <p>要素のCSSクラスを動的に追加・削除・切り替える方法を学びます。</p>
+      <div id="class-target" class="box" style="border: 1px solid #ccc; padding: 20px; margin: 10px 0; transition: all 0.3s;">クラス操作対象</div>
+      <button id="btn-add" style="margin: 5px; padding: 8px; background: #4CAF50; color: white; border: none; border-radius: 4px;">activeクラス追加</button>
+      <button id="btn-remove" style="margin: 5px; padding: 8px; background: #f44336; color: white; border: none; border-radius: 4px;">activeクラス削除</button>
+      <button id="btn-toggle" style="margin: 5px; padding: 8px; background: #FF9800; color: white; border: none; border-radius: 4px;">activeクラス切替</button>
       <div class="result" id="result-classlist"></div>
     </section>
 
     <section id="style-change">
       <h2>14. 要素のスタイル変更</h2>
       <p>JavaScriptから直接要素のスタイルを変更する方法を学びます。</p>
-      <div id="style-target" class="box" style="border: 1px solid #ccc; padding: 20px; margin: 10px 0; transition: all 0.3s;">スタイル変更対象</div>
-      <button id="btn-style" style="margin: 5px; padding: 8px; background: #9C27B0; color: white; border: none; border-radius: 4px;">スタイルを変更</button>
-      <button id="btn-reset-style" style="margin: 5px; padding: 8px; background: #607D8B; color: white; border: none; border-radius: 4px;">スタイルをリセット</button>
       <pre><code>let styleTarget = document.getElementById('style-target');
 
 // スタイル変更ボタンの処理
@@ -137,15 +134,15 @@ document.getElementById('btn-reset-style').addEventListener('click', function() 
     
     console.log("スタイルをリセットしました");
 });</code></pre>
+      <div id="style-target" class="box" style="border: 1px solid #ccc; padding: 20px; margin: 10px 0; transition: all 0.3s;">スタイル変更対象</div>
+      <button id="btn-style" style="margin: 5px; padding: 8px; background: #9C27B0; color: white; border: none; border-radius: 4px;">スタイルを変更</button>
+      <button id="btn-reset-style" style="margin: 5px; padding: 8px; background: #607D8B; color: white; border: none; border-radius: 4px;">スタイルをリセット</button>
       <div class="result" id="result-style"></div>
     </section>
 
     <section id="node-manipulation">
       <h2>15. 要素の追加と削除</h2>
       <p>新しい要素を作成して追加・削除する方法を学びます。</p>
-      <button id="btn-add-node" style="margin: 5px; padding: 8px; background: #4CAF50; color: white; border: none; border-radius: 4px;">要素を追加</button>
-      <button id="btn-remove-node" style="margin: 5px; padding: 8px; background: #f44336; color: white; border: none; border-radius: 4px;">要素を削除</button>
-      <div id="node-area" style="border: 1px dashed #ccc; min-height: 50px; padding: 10px; margin: 10px 0;"></div>
       <pre><code>let nodeArea = document.getElementById('node-area');
 let addedElement = null;
 
@@ -181,6 +178,9 @@ document.getElementById('btn-remove-node').addEventListener('click', function() 
         console.log("削除する要素がありません");
     }
 });</code></pre>
+      <button id="btn-add-node" style="margin: 5px; padding: 8px; background: #4CAF50; color: white; border: none; border-radius: 4px;">要素を追加</button>
+      <button id="btn-remove-node" style="margin: 5px; padding: 8px; background: #f44336; color: white; border: none; border-radius: 4px;">要素を削除</button>
+      <div id="node-area" style="border: 1px dashed #ccc; min-height: 50px; padding: 10px; margin: 10px 0;"></div>
       <div class="result" id="result-node"></div>
     </section>
 
@@ -241,10 +241,6 @@ console.log("趣味:", parsedUser.hobbies.join(", "));</code></pre>
     <section id="local-storage">
       <h2>18. ローカルストレージ</h2>
       <p>ブラウザにデータを保存・取得する方法を学びます。</p>
-      <div style="margin: 10px 0;">
-        <input type="text" id="storage-input" placeholder="保存したいメッセージを入力" style="width: 70%; padding: 8px; margin-right: 10px;">
-        <button id="btn-save-storage" style="padding: 8px 16px;">保存</button>
-      </div>
       <pre><code>// データをローカルストレージに保存
 let message = document.getElementById('storage-input').value;
 localStorage.setItem('userMessage', message);
@@ -260,6 +256,10 @@ console.log("取得したデータ:", savedMessage);
 
 // 全てのデータを確認
 console.log("ローカルストレージの内容:", localStorage);</code></pre>
+      <div style="margin: 10px 0;">
+        <input type="text" id="storage-input" placeholder="保存したいメッセージを入力" style="width: 70%; padding: 8px; margin-right: 10px;">
+        <button id="btn-save-storage" style="padding: 8px 16px;">保存</button>
+      </div>
       <button id="btn-storage">データを取得</button>
       <button id="btn-clear-storage" style="background: #f44336;">データを削除</button>
       <div class="result" id="result-storage"></div>
@@ -268,9 +268,6 @@ console.log("ローカルストレージの内容:", localStorage);</code></pre>
     <section id="timer-functions">
       <h2>19. タイマー機能</h2>
       <p>時間を使った処理（遅延実行・繰り返し実行）を学びます。</p>
-      <div id="timer-display" style="font-size: 24px; font-weight: bold; text-align: center; padding: 20px; background: #f0f8ff; border-radius: 10px; margin: 10px 0;">00:00</div>
-      <button id="btn-start-timer">タイマー開始</button>
-      <button id="btn-stop-timer" style="background: #f44336;">タイマー停止</button>
       <pre><code>let seconds = 0;
 let timerInterval = null;
 
@@ -300,6 +297,9 @@ function stopTimer() {
         console.log("タイマーを停止しました");
     }
 }</code></pre>
+      <div id="timer-display" style="font-size: 24px; font-weight: bold; text-align: center; padding: 20px; background: #f0f8ff; border-radius: 10px; margin: 10px 0;">00:00</div>
+      <button id="btn-start-timer">タイマー開始</button>
+      <button id="btn-stop-timer" style="background: #f44336;">タイマー停止</button>
       <div class="result" id="result-timer"></div>
     </section>
 
