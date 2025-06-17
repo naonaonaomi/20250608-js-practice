@@ -16,17 +16,12 @@
     <section id="dom-get">
       <h2>10. DOM要素の取得</h2>
       <p>様々な方法でHTML要素を取得する方法を学びます。</p>
-      <pre><code>// IDで取得
-let element1 = document.getElementById('sample');
-console.log("IDで取得:", element1.textContent);
-
-// クラス名で取得
+      <pre><code>let element1 = document.getElementById('sample');
 let element2 = document.querySelector('.sample-class');
-console.log("クラスで取得:", element2.textContent);
-
-// タグ名で取得
 let element3 = document.querySelector('div');
-console.log("最初のdiv:", element3.textContent);</code></pre>
+
+console.log("ID:", element1.textContent);
+console.log("クラス:", element2.textContent);</code></pre>
       <button id="btn-dom-get">実行してみる</button>
       <div id="sample" class="sample-class" style="border: 1px solid #ccc; padding: 10px; margin: 10px 0;">サンプル要素</div>
       <div class="result" id="result-dom-get"></div>
@@ -35,14 +30,11 @@ console.log("最初のdiv:", element3.textContent);</code></pre>
     <section id="event-listener">
       <h2>11. クリックイベントの処理</h2>
       <p>ボタンがクリックされた時の処理を設定する方法を学びます。</p>
-      <pre><code>// ボタンを取得
-let button = document.getElementById('btn-event');
+      <pre><code>let button = document.getElementById('btn-event');
 
-// クリックイベントを設定
 button.addEventListener('click', function() {
-    console.log("ボタンがクリックされました！");
-    console.log("現在の時刻:", new Date().toLocaleTimeString());
-    console.log("クリック処理が完了しました");
+    console.log("クリックされました！");
+    console.log("時刻:", new Date().toLocaleTimeString());
 });</code></pre>
       <button id="btn-event">クリックしてみて！</button>
       <div class="result" id="result-event"></div>
@@ -51,22 +43,16 @@ button.addEventListener('click', function() {
     <section id="form-input">
       <h2>12. フォーム入力の取得</h2>
       <p>入力フィールドの値を取得し、フォーム送信を制御する方法を学びます。</p>
-      <pre><code>// フォーム要素を取得
-let form = document.getElementById('sample-form');
+      <pre><code>let form = document.getElementById('sample-form');
 let input = document.getElementById('input-text');
 
-// 送信イベントを処理
 form.addEventListener('submit', function(event) {
-    event.preventDefault(); // デフォルトの送信を停止
-    
-    let inputValue = input.value;
-    console.log("入力された値:", inputValue);
-    
-    if (inputValue.trim() === "") {
+    event.preventDefault();
+    let value = input.value;
+    if (value.trim() === "") {
         console.log("エラー: 名前を入力してください");
     } else {
-        console.log(`こんにちは、${inputValue}さん！`);
-        console.log("フォーム処理が完了しました");
+        console.log(`こんにちは、${value}さん！`);
     }
 });</code></pre>
       <form id="sample-form">
@@ -78,27 +64,16 @@ form.addEventListener('submit', function(event) {
 
     <section id="classlist">
       <h2>13. CSSクラスの操作</h2>
-      <pre><code>let targetElement = document.getElementById('class-target');
+      <pre><code>let target = document.getElementById('class-target');
 
-// addボタンの処理
-document.getElementById('btn-add').addEventListener('click', function() {
-    targetElement.classList.add('active');
-    console.log("activeクラスを追加しました");
-    console.log("現在のクラス:", targetElement.className);
+document.getElementById('btn-add').addEventListener('click', () => {
+    target.classList.add('active');
+    console.log("activeクラス追加");
 });
 
-// removeボタンの処理
-document.getElementById('btn-remove').addEventListener('click', function() {
-    targetElement.classList.remove('active');
-    console.log("activeクラスを削除しました");
-    console.log("現在のクラス:", targetElement.className);
-});
-
-// toggleボタンの処理
-document.getElementById('btn-toggle').addEventListener('click', function() {
-    targetElement.classList.toggle('active');
-    console.log("activeクラスを切り替えました");
-    console.log("現在のクラス:", targetElement.className);
+document.getElementById('btn-toggle').addEventListener('click', () => {
+    target.classList.toggle('active');
+    console.log("activeクラス切り替え");
 });</code></pre>
       <p>要素のCSSクラスを動的に追加・削除・切り替える方法を学びます。</p>
       <div id="class-target" class="box" style="border: 1px solid #ccc; padding: 20px; margin: 10px 0; transition: all 0.3s;">クラス操作対象</div>
@@ -113,26 +88,11 @@ document.getElementById('btn-toggle').addEventListener('click', function() {
       <p>JavaScriptから直接要素のスタイルを変更する方法を学びます。</p>
       <pre><code>let styleTarget = document.getElementById('style-target');
 
-// スタイル変更ボタンの処理
-document.getElementById('btn-style').addEventListener('click', function() {
+document.getElementById('btn-style').addEventListener('click', () => {
     styleTarget.style.color = "white";
     styleTarget.style.backgroundColor = "red";
     styleTarget.style.fontSize = "20px";
-    styleTarget.style.borderRadius = "10px";
-    
-    console.log("スタイルを変更しました");
-    console.log("色:", styleTarget.style.color);
-    console.log("背景色:", styleTarget.style.backgroundColor);
-});
-
-// リセットボタンの処理
-document.getElementById('btn-reset-style').addEventListener('click', function() {
-    styleTarget.style.color = "";
-    styleTarget.style.backgroundColor = "";
-    styleTarget.style.fontSize = "";
-    styleTarget.style.borderRadius = "";
-    
-    console.log("スタイルをリセットしました");
+    console.log("スタイル変更完了");
 });</code></pre>
       <div id="style-target" class="box" style="border: 1px solid #ccc; padding: 20px; margin: 10px 0; transition: all 0.3s;">スタイル変更対象</div>
       <button id="btn-style" style="margin: 5px; padding: 8px; background: #9C27B0; color: white; border: none; border-radius: 4px;">スタイルを変更</button>
@@ -146,36 +106,14 @@ document.getElementById('btn-reset-style').addEventListener('click', function() 
       <pre><code>let nodeArea = document.getElementById('node-area');
 let addedElement = null;
 
-// 追加ボタンの処理
-document.getElementById('btn-add-node').addEventListener('click', function() {
-    if (addedElement === null) {
-        // 新しい要素を作成
+document.getElementById('btn-add-node').addEventListener('click', () => {
+    if (!addedElement) {
         addedElement = document.createElement('div');
-        addedElement.textContent = '新しく追加された要素です！';
+        addedElement.textContent = '新しく追加された要素！';
         addedElement.style.backgroundColor = '#e1f5fe';
         addedElement.style.padding = '10px';
-        addedElement.style.margin = '5px 0';
-        addedElement.style.borderRadius = '4px';
-        
-        // 要素を追加
         nodeArea.appendChild(addedElement);
-        
-        console.log("新しい要素を追加しました");
-        console.log("追加した要素:", addedElement);
-    } else {
-        console.log("既に要素が追加されています");
-    }
-});
-
-// 削除ボタンの処理
-document.getElementById('btn-remove-node').addEventListener('click', function() {
-    if (addedElement && nodeArea.contains(addedElement)) {
-        nodeArea.removeChild(addedElement);
-        addedElement = null;
-        
-        console.log("要素を削除しました");
-    } else {
-        console.log("削除する要素がありません");
+        console.log("要素を追加しました");
     }
 });</code></pre>
       <button id="btn-add-node" style="margin: 5px; padding: 8px; background: #4CAF50; color: white; border: none; border-radius: 4px;">要素を追加</button>
@@ -187,31 +125,20 @@ document.getElementById('btn-remove-node').addEventListener('click', function() 
     <section id="class-instance">
       <h2>16. クラスとインスタンス</h2>
       <p>JavaScriptのclass構文を使ったオブジェクト指向プログラミングを学びます。</p>
-      <pre><code>// Animalクラスの定義
-class Animal {
+      <pre><code>class Animal {
     constructor(name, species) {
         this.name = name;
         this.species = species;
-        console.log(`${species}の${name}を作成しました`);
     }
-    
     greet() {
         return `こんにちは、${this.species}の${this.name}です！`;
     }
-    
-    info() {
-        return `名前: ${this.name}, 種類: ${this.species}`;
-    }
 }
 
-// インスタンスの作成と使用
 let dog = new Animal('ポチ', '犬');
 let cat = new Animal('ミケ', '猫');
-
 console.log(dog.greet());
-console.log(cat.greet());
-console.log("犬の情報:", dog.info());
-console.log("猫の情報:", cat.info());</code></pre>
+console.log(cat.greet());</code></pre>
       <button id="btn-class">実行してみる</button>
       <div class="result" id="result-class"></div>
     </section>
@@ -219,19 +146,16 @@ console.log("猫の情報:", cat.info());</code></pre>
     <section id="json-data">
       <h2>17. JSON データの操作</h2>
       <p>データをJSON形式で保存・読み込みする方法を学びます。</p>
-      <pre><code>// オブジェクトをJSON文字列に変換
-let user = {
+      <pre><code>let user = {
     name: "田中太郎",
     age: 25,
-    hobbies: ["読書", "映画鑑賞", "プログラミング"]
+    hobbies: ["読書", "映画", "プログラミング"]
 };
 
 let jsonString = JSON.stringify(user);
-console.log("JSON文字列:", jsonString);
-
-// JSON文字列をオブジェクトに変換
 let parsedUser = JSON.parse(jsonString);
-console.log("解析されたオブジェクト:", parsedUser);
+
+console.log("JSON文字列:", jsonString);
 console.log("名前:", parsedUser.name);
 console.log("趣味:", parsedUser.hobbies.join(", "));</code></pre>
       <button id="btn-json">実行してみる</button>
@@ -241,21 +165,12 @@ console.log("趣味:", parsedUser.hobbies.join(", "));</code></pre>
     <section id="local-storage">
       <h2>18. ローカルストレージ</h2>
       <p>ブラウザにデータを保存・取得する方法を学びます。</p>
-      <pre><code>// データをローカルストレージに保存
-let message = document.getElementById('storage-input').value;
+      <pre><code>let message = document.getElementById('storage-input').value;
 localStorage.setItem('userMessage', message);
 console.log("保存しました:", message);
 
-// ローカルストレージからデータを取得
 let savedMessage = localStorage.getItem('userMessage');
-console.log("取得したデータ:", savedMessage);
-
-// データを削除
-// localStorage.removeItem('userMessage');
-// console.log("データを削除しました");
-
-// 全てのデータを確認
-console.log("ローカルストレージの内容:", localStorage);</code></pre>
+console.log("取得しました:", savedMessage);</code></pre>
       <div style="margin: 10px 0;">
         <input type="text" id="storage-input" placeholder="保存したいメッセージを入力" style="width: 70%; padding: 8px; margin-right: 10px;">
         <button id="btn-save-storage" style="padding: 8px 16px;">保存</button>

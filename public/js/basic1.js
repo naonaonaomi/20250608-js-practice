@@ -78,25 +78,14 @@
       description: '変数とデータ型',
       handler: () => {
         return captureConsoleOutput(() => {
-          // 数値
-          const age = 25;
-          console.log("年齢:", age);
+          let age = 25;
+          let name = "田中太郎";
+          let isStudent = true;
+          let person = { name: "佐藤", age: 30 };
+          let colors = ["赤", "青", "緑"];
 
-          // 文字列
-          const name = "田中太郎";
-          console.log("名前:", name);
-
-          // 真偽値
-          const isStudent = true;
-          console.log("学生か:", isStudent);
-
-          // オブジェクト
-          const person = { name: "佐藤", age: 30 };
-          console.log("人物:", person);
-
-          // 配列
-          const colors = ["赤", "青", "緑"];
-          console.log("色:", colors);
+          console.log("年齢:", age, "名前:", name);
+          console.log("学生:", isStudent, "人物:", person);
         });
       }
     },
@@ -107,22 +96,10 @@
       description: '演算子',
       handler: () => {
         return captureConsoleOutput(() => {
-          // 算術演算子
-          const x = 10;
-          const y = 3;
-          console.log("x + y =", x + y);
-          console.log("x - y =", x - y);
-          console.log("x * y =", x * y);
-          console.log("x / y =", x / y);
-
-          // 比較演算子
-          console.log("x > y:", x > y);
-          console.log("x === y:", x === y);
-
-          // 論理演算子
-          const isAdult = x > 18;
-          const hasLicense = true;
-          console.log("運転可能:", isAdult && hasLicense);
+          let x = 10, y = 3;
+          console.log("計算:", x + y, x - y, x * y, x / y);
+          console.log("比較:", x > y, x === y);
+          console.log("論理:", x > 18 && true);
         });
       }
     },
@@ -133,20 +110,13 @@
       description: '制御文（if文、forループ）',
       handler: () => {
         return captureConsoleOutput(() => {
-          // if文の例
-          const score = 85;
-          if (score >= 90) {
-            console.log("優秀です！");
-          } else if (score >= 70) {
-            console.log("良い成績です");
-          } else {
-            console.log("もう少し頑張りましょう");
-          }
+          let score = 85;
+          if (score >= 90) console.log("優秀！");
+          else if (score >= 70) console.log("良い！");
+          else console.log("頑張ろう！");
 
-          // forループの例
-          console.log("--- 1から5まで ---");
-          for (let i = 1; i <= 5; i++) {
-            console.log(`${i}回目のループ`);
+          for (let i = 1; i <= 3; i++) {
+            console.log(`${i}回目`);
           }
         });
       }
@@ -158,24 +128,13 @@
       description: '関数',
       handler: () => {
         return captureConsoleOutput(() => {
-          // 通常の関数
           function greet(name) {
             return `こんにちは、${name}さん！`;
           }
-
-          // アロー関数
           const double = (num) => num * 2;
 
-          // 関数の実行
           console.log(greet("山田"));
-          console.log("5の2倍は:", double(5));
-
-          // 引数が複数の関数
-          const add = (a, b) => {
-            const result = a + b;
-            return `${a} + ${b} = ${result}`;
-          };
-          console.log(add(3, 7));
+          console.log("5の2倍:", double(5));
         });
       }
     },
@@ -186,21 +145,12 @@
       description: 'オブジェクトと配列',
       handler: () => {
         return captureConsoleOutput(() => {
-          // オブジェクトの作成と操作
-          const student = {
-            name: "鈴木花子",
-            age: 20,
-            grade: "A"
-          };
-          console.log("学生情報:", student);
-          console.log("名前:", student.name);
+          let student = { name: "鈴木花子", age: 20, grade: "A" };
+          let fruits = ["りんご", "バナナ"];
 
-          // 配列の作成と操作
-          const fruits = ["りんご", "バナナ", "オレンジ"];
-          console.log("果物リスト:", fruits);
-          fruits.push("ぶどう");
-          console.log("ぶどう追加後:", fruits);
-          console.log("最初の果物:", fruits[0]);
+          console.log("学生:", student.name, student.age);
+          fruits.push("オレンジ");
+          console.log("果物:", fruits[0], fruits);
         });
       }
     },
@@ -211,26 +161,13 @@
       description: '配列メソッド',
       handler: () => {
         return captureConsoleOutput(() => {
-          const numbers = [1, 2, 3, 4, 5];
-          console.log("元の配列:", numbers);
+          let numbers = [1, 2, 3, 4, 5];
+          let doubled = numbers.map(num => num * 2);
+          let evens = numbers.filter(num => num % 2 === 0);
+          let found = numbers.find(num => num > 3);
 
-          // map: 各要素を変換
-          const doubled = numbers.map(num => num * 2);
-          console.log("2倍にした配列:", doubled);
-
-          // filter: 条件に合う要素だけ抽出
-          const evenNumbers = numbers.filter(num => num % 2 === 0);
-          console.log("偶数だけ:", evenNumbers);
-
-          // find: 条件に合う最初の要素を取得
-          const foundNumber = numbers.find(num => num > 3);
-          console.log("3より大きい最初の数:", foundNumber);
-
-          // forEach: 各要素に対して処理実行
-          console.log("--- 各要素の表示 ---");
-          numbers.forEach((num, index) => {
-            console.log(`${index}番目: ${num}`);
-          });
+          console.log("元配列:", numbers);
+          console.log("2倍:", doubled, "偶数:", evens, "見つけた:", found);
         });
       }
     },
@@ -241,23 +178,11 @@
       description: 'DOM操作',
       handler: () => {
         return captureConsoleOutput(() => {
-          // 要素を取得
-          const targetElement = $('demo');
-          if (!targetElement) {
-            console.log("エラー: demo要素が見つかりません");
-            return;
-          }
-          
-          console.log("取得した要素:", targetElement);
-
-          // 要素の内容を変更
-          targetElement.textContent = "JavaScriptで変更されました！";
-          console.log("テキストを変更しました");
-
-          // 要素のスタイルも変更
-          targetElement.style.color = "blue";
-          targetElement.style.fontWeight = "bold";
-          console.log("スタイルも変更しました");
+          let target = document.getElementById('demo');
+          target.textContent = "JavaScriptで変更されました！";
+          target.style.color = "blue";
+          target.style.fontWeight = "bold";
+          console.log("要素を変更しました");
         });
       }
     },
@@ -265,23 +190,17 @@
     {
       btnId: 'btn7',
       resultId: 'result7',
-      description: 'エラーハンドリング',
+      description: 'エラー処理',
       handler: () => {
         return captureConsoleOutput(() => {
           try {
-            console.log("処理を開始します");
-            
-            // わざとエラーを発生させる
-            const result = 10 / 0;  // 0で割る
-            if (!isFinite(result)) {
-              throw new Error("不正な計算結果です");
-            }
-            
+            let result = 10 / 0;
+            if (!isFinite(result)) throw new Error("計算エラー");
           } catch (error) {
-            console.log("エラーが発生:", error.message);
-            console.log("エラーを正常に処理しました");
+            console.log("エラー:", error.message);
+            console.log("エラーを処理しました");
           } finally {
-            console.log("処理を終了します");
+            console.log("処理完了");
           }
         });
       }
@@ -293,51 +212,38 @@
       description: 'ES6機能',
       handler: () => {
         return captureConsoleOutput(() => {
-          // テンプレートリテラル
-          const userName = "田中";
-          const userAge = 25;
-          const message = `ユーザー名: ${userName}, 年齢: ${userAge}歳`;
-          console.log(message);
+          let userName = "田中", userAge = 25;
+          let message = `ユーザー: ${userName}, 年齢: ${userAge}歳`;
 
-          // 分割代入
-          const user = { name: "佐藤", age: 30, city: "東京" };
-          const { name, age, city } = user;
-          console.log(`${name}さんは${age}歳、${city}在住です`);
+          let user = { name: "佐藤", age: 30, city: "東京" };
+          let { name, age, city } = user;
 
-          // スプレッド構文
-          const arr1 = [1, 2, 3];
-          const arr2 = [...arr1, 4, 5];
-          console.log("元の配列:", arr1);
-          console.log("拡張した配列:", arr2);
+          let arr1 = [1, 2, 3];
+          let arr2 = [...arr1, 4, 5];
+          console.log(message, arr2);
         });
       }
     }
   ];
 
   // ========================================
-  // イベントリスナー登録
+  // イベントリスナー初期化
   // ========================================
 
-  /**
-   * すべてのアクションにイベントリスナーを登録
-   */
   function initializeEventListeners() {
-    actions.forEach(({ btnId, resultId, handler }) => {
-      const button = $(btnId);
-      const resultElement = $(resultId);
+    actions.forEach(action => {
+      const btn = $(action.btnId);
+      const resultElement = $(action.resultId);
       
-      if (button && resultElement) {
-        button.addEventListener('click', () => {
+      if (btn && resultElement) {
+        btn.addEventListener('click', () => {
           try {
-            const output = handler();
+            const output = action.handler();
             displayResult(resultElement, output);
           } catch (error) {
-            console.error('エラーが発生しました:', error);
-            displayResult(resultElement, [`エラー: ${error.message}`]);
+            displayResult(resultElement, `エラー: ${error.message}`);
           }
         });
-      } else {
-        console.warn(`要素が見つかりません: button=${btnId}, result=${resultId}`);
       }
     });
   }
@@ -346,11 +252,19 @@
   // 初期化
   // ========================================
 
-  // DOMが読み込まれた後に初期化を実行
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initializeEventListeners);
-  } else {
+  /**
+   * ページ読み込み完了時の初期化
+   */
+  function initialize() {
+    console.log('basic1.js が読み込まれました');
     initializeEventListeners();
+  }
+
+  // DOM読み込み完了後に初期化実行
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initialize);
+  } else {
+    initialize();
   }
 
 })();

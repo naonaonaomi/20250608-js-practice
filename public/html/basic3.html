@@ -16,27 +16,21 @@
     <section id="async-await">
       <h2>20. 非同期処理（Promise・async/await）</h2>
       <p>時間のかかる処理を効率的に扱う方法を学びます。</p>
-      <pre><code>// Promiseを使った非同期処理
-function fetchData(id) {
+      <pre><code>function fetchData(id) {
     return new Promise((resolve) => {
-        console.log(`データ${id}を取得中...`);
-        setTimeout(() => {
-            resolve({ id: id, name: `データ${id}` });
-        }, 1000);
+        console.log(`データ${id}取得中...`);
+        setTimeout(() => resolve({ id, name: `データ${id}` }), 1000);
     });
 }
 
-// async/awaitを使用
 async function getData() {
     try {
-        console.log("開始");
         let data = await fetchData(123);
         console.log("完了:", data);
     } catch (error) {
         console.log("エラー:", error.message);
     }
 }
-
 getData();</code></pre>
       <button id="btn-async">実行してみる</button>
       <div class="result" id="result-async"></div>
@@ -45,10 +39,8 @@ getData();</code></pre>
     <section id="scope-closure">
       <h2>21. スコープとクロージャ</h2>
       <p>変数の有効範囲と、関数が外側の変数を覚える仕組みを学びます。</p>
-      <pre><code>// クロージャ: 外側の変数を覚える関数
-function counter(start) {
+      <pre><code>function counter(start) {
     let count = start;
-    
     return function() {
         count++;
         console.log("カウント:", count);
@@ -56,16 +48,12 @@ function counter(start) {
     };
 }
 
-// 各カウンターは独自の値を保持
 let counter1 = counter(0);
 let counter2 = counter(100);
-
-counter1(); // カウント: 1
-counter1(); // カウント: 2
-counter2(); // カウント: 101
-counter2(); // カウント: 102
-
-console.log("各クロージャは独自の値を保持します");</code></pre>
+counter1(); // 1
+counter1(); // 2
+counter2(); // 101
+console.log("各クロージャは独自の値を保持");</code></pre>
       <button id="btn-scope">実行してみる</button>
       <div class="result" id="result-scope"></div>
     </section>
@@ -73,30 +61,21 @@ console.log("各クロージャは独自の値を保持します");</code></pre>
     <section id="prototype-this">
       <h2>22. プロトタイプとthis</h2>
       <p>JavaScriptのオブジェクト指向の基盤となる概念を学びます。</p>
-      <pre><code>// コンストラクタ関数
-function Car(name) {
+      <pre><code>function Car(name) {
     this.name = name;
     this.speed = 0;
 }
 
-// プロトタイプにメソッドを追加
 Car.prototype.accelerate = function() {
     this.speed += 10;
     console.log(`${this.name}の速度: ${this.speed}km/h`);
 };
 
-Car.prototype.info = function() {
-    return `車名: ${this.name}, 速度: ${this.speed}km/h`;
-};
-
-// インスタンス作成とメソッド実行
 let car1 = new Car("プリウス");
 let car2 = new Car("アクア");
-
-car1.accelerate(); // プリウスの速度: 10km/h
-car2.accelerate(); // アクアの速度: 10km/h
-console.log(car1.info());
-console.log(car2.info());</code></pre>
+car1.accelerate();
+car2.accelerate();
+console.log(`車1: ${car1.name} ${car1.speed}km/h`);</code></pre>
       <button id="btn-prototype">実行してみる</button>
       <div class="result" id="result-prototype"></div>
     </section>
@@ -108,19 +87,12 @@ console.log(car2.info());</code></pre>
         <input type="text" id="regex-input" placeholder="検証したいテキストを入力" value="連絡先: taro@example.com, 090-1234-5678" style="width: 100%; padding: 8px; margin-bottom: 10px;">
       </div>
       <pre><code>let text = document.getElementById('regex-input').value;
-console.log("対象テキスト:", text);
-
-// メールアドレスを検索
 let emailRegex = /[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/g;
-console.log("メールアドレス:", text.match(emailRegex));
-
-// 電話番号を検索
 let phoneRegex = /\d{3}-\d{4}-\d{4}/g;
-console.log("電話番号:", text.match(phoneRegex));
 
-// メールアドレスを隠す
-let hiddenText = text.replace(emailRegex, "[メール]");
-console.log("置換後:", hiddenText);</code></pre>
+console.log("メール:", text.match(emailRegex));
+console.log("電話:", text.match(phoneRegex));
+console.log("置換後:", text.replace(emailRegex, "[メール]"));</code></pre>
       <button id="btn-regex">実行してみる</button>
       <div class="result" id="result-regex"></div>
     </section>
@@ -128,26 +100,20 @@ console.log("置換後:", hiddenText);</code></pre>
     <section id="fetch-api">
       <h2>24. Fetch API（Web API呼び出し）</h2>
       <p>インターネット上のデータを取得する方法を学びます。</p>
-      <pre><code>// 公開APIからデータを取得
-async function fetchUserData() {
+      <pre><code>async function fetchUserData() {
     try {
         console.log("データ取得中...");
         let response = await fetch('https://jsonplaceholder.typicode.com/users/1');
-        
         if (!response.ok) throw new Error(`エラー: ${response.status}`);
         
         let user = await response.json();
-        console.log("ユーザー名:", user.name);
+        console.log("ユーザー:", user.name);
         console.log("メール:", user.email);
-        console.log("会社:", user.company.name);
     } catch (error) {
         console.log("エラー:", error.message);
-        console.log("ダミーデータを使用");
-        console.log("ユーザー名: 山田太郎");
-        console.log("メール: yamada@example.com");
+        console.log("ダミーデータ: 山田太郎");
     }
 }
-
 fetchUserData();</code></pre>
       <button id="btn-fetch">実行してみる</button>
       <div class="result" id="result-fetch"></div>
@@ -156,34 +122,27 @@ fetchUserData();</code></pre>
     <section id="debugging">
       <h2>25. デバッグ手法</h2>
       <p>効率的にバグを見つけて修正する方法を学びます。</p>
-      <pre><code>// デバッグ用のconsole.log
-function calculatePrice(items) {
+      <pre><code>function calculatePrice(items) {
     console.log("計算開始:", items);
     let total = 0;
     
-    items.forEach((item, index) => {
-        console.log(`${index}: ${item.name}`);
-        
+    items.forEach(item => {
         if (typeof item.price !== 'number') {
-            console.warn("警告: 価格エラー", item);
-            return; // スキップ
+            console.warn("価格エラー:", item);
+            return;
         }
-        
         total += item.price * item.quantity;
-        console.log("現在の合計:", total);
     });
     
-    console.log("最終合計:", total + "円");
+    console.log("合計:", total + "円");
     return total;
 }
 
-// テストデータ（エラーデータを含む）
 let cart = [
     { name: "りんご", price: 100, quantity: 2 },
-    { name: "エラー商品", price: "abc", quantity: 1 },
+    { name: "エラー", price: "abc", quantity: 1 },
     { name: "バナナ", price: 80, quantity: 3 }
 ];
-
 calculatePrice(cart);</code></pre>
       <button id="btn-debug">実行してみる</button>
       <div class="result" id="result-debug"></div>
@@ -195,15 +154,12 @@ calculatePrice(cart);</code></pre>
       <pre><code>let products = [
     { name: "PC", price: 80000, category: "tech", inStock: true },
     { name: "机", price: 15000, category: "furniture", inStock: false },
-    { name: "スマホ", price: 60000, category: "tech", inStock: true },
-    { name: "椅子", price: 8000, category: "furniture", inStock: true }
+    { name: "スマホ", price: 60000, category: "tech", inStock: true }
 ];
 
-// 在庫ありの商品
 let inStock = products.filter(p => p.inStock);
 console.log("在庫あり:", inStock.map(p => p.name));
 
-// カテゴリ別集計
 let byCategory = products.reduce((groups, p) => {
     groups[p.category] = groups[p.category] || [];
     groups[p.category].push(p.name);
@@ -211,16 +167,13 @@ let byCategory = products.reduce((groups, p) => {
 }, {});
 console.log("カテゴリ別:", byCategory);
 
-// 価格統計
 let prices = products.map(p => p.price);
-console.log("合計価格:", prices.reduce((a, b) => a + b, 0) + "円");
-console.log("最高価格:", Math.max(...prices) + "円");
+console.log("合計:", prices.reduce((a, b) => a + b, 0) + "円");
 
-// メソッドチェーン: 高価なtech商品
 let expensiveTech = products
     .filter(p => p.category === "tech" && p.price > 50000)
     .map(p => p.name);
-console.log("高価なtech商品:", expensiveTech);</code></pre>
+console.log("高価なtech:", expensiveTech);</code></pre>
       <button id="btn-arrays">実行してみる</button>
       <div class="result" id="result-arrays"></div>
     </section>
