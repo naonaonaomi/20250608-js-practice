@@ -47,7 +47,8 @@
     };
     
     try {
-      return func();
+      func(); // 関数を実行
+      return output; // outputを返す
     } finally {
       // console関数を元に戻す
       console.log = originalLog;
