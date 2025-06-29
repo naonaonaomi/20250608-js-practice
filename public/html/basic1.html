@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>JavaScript練習用ページ</title>
+  <title>JavaScript練習【基礎編】</title>
   <link rel="stylesheet" href="../css/style.css">
 </head>
 <body>
@@ -22,141 +22,144 @@
     <section id="section1">
       <h2>1. 変数とデータ型</h2>
       <p>JavaScriptの基本的なデータ型と変数宣言方法を学びます。</p>
-      <pre><code>let age = 25;
+      <div class="code-result-container">
+        <div>
+          <pre><code>let age = 25;
 let name = "田中太郎";
 let isStudent = true;
-let person = { name: "佐藤", age: 30 };
-let colors = ["赤", "青", "緑"];
 
-console.log("年齢:", age, "名前:", name);
-console.log("学生:", isStudent, "人物:", person);</code></pre>
-      <button id="btn1">実行してみる</button>
-      <div class="result" id="result1"></div>
+console.log("年齢:", age);
+console.log("名前:", name);</code></pre>
+          <button id="btn1">実行してみる</button>
+        </div>
+        <div class="result" id="result1"></div>
+      </div>
     </section>
 
     <!-- 2. 演算子 セクション開始 -->
     <section id="section2">
       <h2>2. 演算子</h2>
       <p>算術・比較・論理演算子の使い方を学びます。</p>
-      <pre><code>let x = 10, y = 3;
-console.log("計算:", x + y, x - y, x * y, x / y);
-console.log("比較:", x > y, x === y);
-console.log("論理:", x > 18 && true);</code></pre>
-      <button id="btn2">実行してみる</button>
-      <div class="result" id="result2"></div>
+      <div class="code-result-container">
+        <div>
+          <pre><code>let x = 10, y = 3;
+console.log("足し算:", x + y);
+console.log("比較:", x > y);
+console.log("論理:", x > 5 && y < 5);</code></pre>
+          <button id="btn2">実行してみる</button>
+        </div>
+        <div class="result" id="result2"></div>
+      </div>
     </section>
 
     <!-- 3. 制御構文 セクション開始 -->
     <section id="section3">
       <h2>3. 制御構文</h2>
       <p>if文やforループなどの制御構文を学びます。</p>
-      <pre><code>let score = 85;
-if (score >= 90) console.log("優秀！");
-else if (score >= 70) console.log("良い！");
-else console.log("頑張ろう！");
-
-for (let i = 1; i <= 3; i++) {
-    console.log(`${i}回目`);
+      <div class="code-result-container">
+        <div>
+          <pre><code>let score = 85;
+if (score >= 90) {
+    console.log("優秀！");
+} else {
+    console.log("良い！");
 }</code></pre>
-      <button id="btn3">実行してみる</button>
-      <div class="result" id="result3"></div>
+          <button id="btn3">実行してみる</button>
+        </div>
+        <div class="result" id="result3"></div>
+      </div>
     </section>
 
     <!-- 4. 関数 セクション開始 -->
     <section id="section4">
       <h2>4. 関数</h2>
       <p>関数の定義と呼び出し、アロー関数について学びます。</p>
-      <pre><code>function greet(name) {
+      <div class="code-result-container">
+        <div>
+          <pre><code>function greet(name) {
     return `こんにちは、${name}さん！`;
 }
-const double = (num) => num * 2;
 
-console.log(greet("山田"));
-console.log("5の2倍:", double(5));</code></pre>
-      <button id="btn4">実行してみる</button>
-      <div class="result" id="result4"></div>
+console.log(greet("山田"));</code></pre>
+          <button id="btn4">実行してみる</button>
+        </div>
+        <div class="result" id="result4"></div>
+      </div>
     </section>
 
     <!-- 5. オブジェクトと配列 セクション開始 -->
     <section id="section5">
       <h2>5. オブジェクトと配列</h2>
       <p>オブジェクトや配列の基本操作を学びます。</p>
-      <pre><code>let student = { name: "鈴木花子", age: 20, grade: "A" };
+      <div class="code-result-container">
+        <div>
+          <pre><code>let student = { name: "鈴木花子", age: 20 };
 let fruits = ["りんご", "バナナ"];
 
-console.log("学生:", student.name, student.age);
-fruits.push("オレンジ");
-console.log("果物:", fruits[0], fruits);</code></pre>
-      <button id="btn5">実行してみる</button>
-      <div class="result" id="result5"></div>
+console.log("学生:", student.name);
+console.log("果物:", fruits[0]);</code></pre>
+          <button id="btn5">実行してみる</button>
+        </div>
+        <div class="result" id="result5"></div>
+      </div>
     </section>
 
     <!-- 6 配列操作 セクション開始 -->
     <section id="sectionArray">
       <h2>6. 配列の便利なメソッド</h2>
-      <p>配列の主な操作（map, filter, find）を学びます。</p>
-      <pre><code>let numbers = [1, 2, 3, 4, 5];
+      <p>配列の主な操作（map, filter）を学びます。</p>
+      <div class="code-result-container">
+        <div>
+          <pre><code>let numbers = [1, 2, 3, 4, 5];
 let doubled = numbers.map(num => num * 2);
 let evens = numbers.filter(num => num % 2 === 0);
-let found = numbers.find(num => num > 3);
 
-console.log("元配列:", numbers);
-console.log("2倍:", doubled, "偶数:", evens, "見つけた:", found);</code></pre>
-      <button id="btnArray">実行してみる</button>
-      <div class="result" id="resultArray"></div>
+console.log("2倍:", doubled);
+console.log("偶数:", evens);</code></pre>
+          <button id="btnArray">実行してみる</button>
+        </div>
+        <div class="result" id="resultArray"></div>
+      </div>
     </section>
 
-    <!-- 7. イベントとDOM操作 セクション開始 -->
+    <!-- 7. DOM操作の基礎 セクション開始 -->
     <section id="section6">
       <h2>7. DOM操作の基礎</h2>
       <p>HTML要素を取得して内容を変更する方法を学びます。</p>
-      <pre><code>let target = document.getElementById('demo');
-target.textContent = "JavaScriptで変更されました！";
+      <div class="code-result-container">
+        <div>
+          <pre><code>let target = document.getElementById('demo');
+target.textContent = "変更されました！";
 target.style.color = "blue";
-target.style.fontWeight = "bold";
+
 console.log("要素を変更しました");</code></pre>
-      <button id="btn6">実行してみる</button>
+          <button id="btn6">実行してみる</button>
+        </div>
+        <div class="result" id="result6"></div>
+      </div>
       <div id="demo" style="border: 1px solid #ccc; padding: 10px; margin: 10px 0;">ここが変わります</div>
-      <div class="result" id="result6"></div>
     </section>
 
-    <!-- 8. エラー処理 セクション開始 -->
-    <section id="section7">
-      <h2>8. エラー処理</h2>
-      <p>try...catchによるエラー処理を学びます。</p>
-      <pre><code>try {
-    let result = 10 / 0;
-    if (!isFinite(result)) throw new Error("計算エラー");
-} catch (error) {
-    console.log("エラー:", error.message);
-    console.log("エラーを処理しました");
-} finally {
-    console.log("処理完了");
-}</code></pre>
-      <button id="btn7">実行してみる</button>
-      <div class="result" id="result7"></div>
-    </section>
-
-    <!-- 9. ES6以降の新機能 セクション開始 -->
+    <!-- 8. テンプレートリテラル セクション開始 -->
     <section id="section8">
-      <h2>9. ES6以降の新機能</h2>
-      <p>テンプレートリテラルや分割代入、スプレッド構文などを学びます。</p>
-      <pre><code>let userName = "田中", userAge = 25;
+      <h2>8. テンプレートリテラル</h2>
+      <p>文字列の中に変数を埋め込む便利な方法を学びます。</p>
+      <div class="code-result-container">
+        <div>
+          <pre><code>let userName = "田中";
+let userAge = 25;
 let message = `ユーザー: ${userName}, 年齢: ${userAge}歳`;
 
-let user = { name: "佐藤", age: 30, city: "東京" };
-let { name, age, city } = user;
-
-let arr1 = [1, 2, 3];
-let arr2 = [...arr1, 4, 5];
-console.log(message, arr2);</code></pre>
-      <button id="btn8">実行してみる</button>
-      <div class="result" id="result8"></div>
+console.log(message);</code></pre>
+          <button id="btn8">実行してみる</button>
+        </div>
+        <div class="result" id="result8"></div>
+      </div>
     </section>
     <div style="text-align:center; margin: 0 0 20px 0;">
-      <button onclick="location.href='basic1-5.html'">ES6+モジュール編へ ▶</button>
+      <button onclick="location.href='basic2.html'">ES6+モジュール編へ ▶</button>
     </div>
   </main>
   <script src="../js/basic1.js"></script>
 </body>
-</html>  
+</html>    

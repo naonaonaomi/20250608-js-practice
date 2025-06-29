@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JavaScript練習【テスト・品質編】</title>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+    <header class="global-header">
+        <div class="header-inner">
+            <a href="../index.html" class="header-title">JavaScript</a>
+        </div>
+    </header>
+    
+    <main>
+        <section id="intro">
+            <h2>テストと品質管理</h2>
+            <p>コードの品質を保つためのテスト手法とデバッグ方法を学びます。</p>
+        </section>
+
+        <section id="section1">
+            <h2>1. 単体テスト</h2>
+            <p>関数が正しく動作するかをテストする方法を学びます。</p>
+            <div class="code-result-container">
+                <div>
+                    <pre><code>function add(a, b) {
+    return a + b;
+}
+
+const test1 = add(2, 3) === 5 ? "成功" : "失敗";
+const test2 = add(0, 0) === 0 ? "成功" : "失敗";
+console.log("テスト1:", test1);
+console.log("テスト2:", test2);</code></pre>
+                    <button id="btn1">実行してみる</button>
+                </div>
+                <div class="result" id="result1"></div>
+            </div>
+        </section>
+
+        <section id="section2">
+            <h2>2. デバッグ手法</h2>
+            <p>コードの動作を確認するためのデバッグ方法を学びます。</p>
+            <div class="code-result-container">
+                <div>
+                    <pre><code>function calculate(x, y) {
+    console.log("入力値:", x, y);
+    let result = x * y + 10;
+    console.log("計算結果:", result);
+    return result;
+}
+
+calculate(5, 3);</code></pre>
+                    <button id="btn2">実行してみる</button>
+                </div>
+                <div class="result" id="result2"></div>
+            </div>
+        </section>
+
+        <section id="section3">
+            <h2>3. エラーハンドリング</h2>
+            <p>エラーが発生した場合の適切な処理方法を学びます。</p>
+            <div class="code-result-container">
+                <div>
+                    <pre><code>try {
+    let result = 10 / 0;
+    console.log("結果:", result);
+} catch (error) {
+    console.log("エラーが発生しました");
+}</code></pre>
+                    <button id="btn3">実行してみる</button>
+                </div>
+                <div class="result" id="result3"></div>
+            </div>
+        </section>
+
+        <section id="section4">
+            <h2>4. パフォーマンス測定</h2>
+            <p>コードの実行時間を測定する方法を学びます。</p>
+            <div class="code-result-container">
+                <div>
+                    <pre><code>const startTime = performance.now();
+let sum = 0;
+for (let i = 0; i < 1000; i++) {
+    sum += i;
+}
+const endTime = performance.now();
+console.log("実行時間:", (endTime - startTime).toFixed(2) + "ms");</code></pre>
+                    <button id="btn4">実行してみる</button>
+                </div>
+                <div class="result" id="result4"></div>
+            </div>
+        </section>
+
+        <div style="text-align:center; margin: 0 0 20px 0;">
+            <button onclick="location.href='basic3.html'">◀ 応用編へ</button>
+            <button onclick="location.href='basic5.html'">上級編へ ▶</button>
+        </div>
+    </main>
+    <script src="../js/basic4.js"></script>
+</body>
+</html>
