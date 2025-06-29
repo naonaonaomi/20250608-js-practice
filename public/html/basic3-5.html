@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JavaScript練習【セキュリティ・実践編】</title>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+    <header>
+        <h1>JavaScript</h1>
+    </header>
+    
+    <main>
+        <div class="container">
+            <h2>JavaScript セキュリティ・実践編</h2>
+            <p>セキュリティ対策と実際のプロジェクトで使える実践的なパターンを学習します。<br>
+            プロダクション環境で重要なスキルを身につけましょう。</p>
+            
+            <section class="section">
+                <h3>26. XSS（クロスサイトスクリプティング）対策</h3>
+                <p>悪意のあるスクリプトの実行を防ぐセキュリティ対策を学びます。</p>
+                <div class="code-block">
+                    <pre><code>// 危険な例（XSS脆弱性あり）
+function unsafeRender(userInput) {
+    document.getElementById('output').innerHTML = userInput;
+}
+
+// 安全な例（XSS対策済み）
+function safeRender(userInput) {
+    const element = document.getElementById('output');
+    element.textContent = userInput; // HTMLとして解釈されない
+}
+
+// HTMLサニタイゼーション
+function sanitizeHTML(input) {
+    const div = document.createElement('div');
+    div.textContent = input;
+    return div.innerHTML;
+}
+
+// より高度なサニタイゼーション
+function advancedSanitize(input) {
+    return input
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#x27;')
+        .replace(/\//g, '&#x2F;');
+}
+
+// 使用例
+const userInput = "&lt;script&gt;alert('XSS')&lt;/script&gt;";
+console.log("危険な入力:", userInput);
+console.log("サニタイズ後:", sanitizeHTML(userInput));</code></pre>
+                </div>
+                <button class="btn" onclick="runXSSPreventionExample()">実行してみる</button>
+                <div class="result" id="result-xss-prevention"></div>
+            </section>
+
+            <section class="section">
+                <h3>27. CSRF（クロスサイトリクエストフォージェリ）対策</h3>
+                <p>意図しないリクエストの実行を防ぐセキュリティ対策を学びます。</p>
+                <div class="code-block">
+                    <pre><code>// CSRFトークンの生成
+function generateCSRFToken() {
+    const array = new Uint8Array(32);
+    crypto.getRandomValues(array);
+    return Array.from(array, byte =&gt; byte.toString(16).padStart(2, '0')).join('');
+}
+
+// セキュアなAPIリクエスト
+class SecureAPIClient {
+    constructor() {
+        this.csrfToken = this.getCSRFToken();
+    }
+    
+    getCSRFToken() {
+        // 通常はサーバーから取得
+        return generateCSRFToken();
+    }
+    
+    async makeSecureRequest(url, data) {
+        const headers = {
+            'Content-Type': 'application/json',
+            'X-CSRF-Token': this.csrfToken,
+            'X-Requested-With': 'XMLHttpRequest'
+        };
+        
+        try {
+            const response = await fetch(url, {
+                method: 'POST',
+                headers: headers,
+                body: JSON.stringify(data),
+                credentials: 'same-origin' // 同一オリジンのみ
+            });
+            
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            
+            return await response.json();
+        } catch (error) {
+            console.error('セキュアリクエストエラー:', error);
+            throw error;
+        }
+    }
+}
+
+// 使用例
+const apiClient = new SecureAPIClient();
+console.log("CSRFトークン:", apiClient.csrfToken.substring(0, 16) + "...");</code></pre>
+                </div>
+                <button class="btn" onclick="runCSRFPreventionExample()">実行してみる</button>
+                <div class="result" id="result-csrf-prevention"></div>
+            </section>
+
+            <section class="section">
+                <h3>28. ジェネレーター（Generator）</h3>
+                <p>遅延評価と状態管理を行うジェネレーター関数を学びます。</p>
+                <div class="code-block">
+                    <pre><code>// 基本的なジェネレーター
+function* numberGenerator() {
+    let num = 1;
+    while (true) {
+        yield num++;
+    }
+}
+
+// フィボナッチ数列ジェネレーター
+function* fibonacciGenerator() {
+    let a = 0, b = 1;
+    while (true) {
+        yield a;
+        [a, b] = [b, a + b];
+    }
+}
+
+// 非同期ジェネレーター
+async function* asyncDataGenerator() {
+    for (let i = 1; i &lt;= 5; i++) {
+        await new Promise(resolve =&gt; setTimeout(resolve, 100));
+        yield `データ ${i}`;
+    }
+}
+
+// ジェネレーターの使用例
+function demonstrateGenerators() {
+    console.log("=== 基本的なジェネレーター ===");
+    const numGen = numberGenerator();
+    console.log("数値1:", numGen.next().value);
+    console.log("数値2:", numGen.next().value);
+    console.log("数値3:", numGen.next().value);
+    
+    console.log("\n=== フィボナッチ数列 ===");
+    const fibGen = fibonacciGenerator();
+    for (let i = 0; i &lt; 10; i++) {
+        console.log(`F(${i}):`, fibGen.next().value);
+    }
+    
+    console.log("\n=== ジェネレーターの利点 ===");
+    console.log("- メモリ効率的");
+    console.log("- 遅延評価");
+    console.log("- 状態の保持");
+    console.log("- 無限シーケンスの表現");
+}</code></pre>
+                </div>
+                <button class="btn" onclick="runGeneratorExample()">実行してみる</button>
+                <div class="result" id="result-generator"></div>
+            </section>
+
+            <section class="section">
+                <h3>29. 非同期イテレーター</h3>
+                <p>非同期データストリームを効率的に処理する方法を学びます。</p>
+                <div class="code-block">
+                    <pre><code>// 非同期イテレーターの実装
+class AsyncDataStream {
+    constructor(data) {
+        this.data = data;
+        this.index = 0;
+    }
+    
+    [Symbol.asyncIterator]() {
+        return this;
+    }
+    
+    async next() {
+        if (this.index &gt;= this.data.length) {
+            return { done: true };
+        }
+        
+        // 非同期処理をシミュレート
+        await new Promise(resolve =&gt; setTimeout(resolve, 100));
+        
+        const value = this.data[this.index++];
+        return { value, done: false };
+    }
+}
+
+// for await...of の使用
+async function processAsyncData() {
+    const dataStream = new AsyncDataStream(['A', 'B', 'C', 'D', 'E']);
+    
+    console.log("=== 非同期イテレーション開始 ===");
+    for await (const item of dataStream) {
+        console.log("処理中:", item);
+    }
+    console.log("=== 非同期イテレーション完了 ===");
+}
+
+// 非同期ジェネレーターとの組み合わせ
+async function* fetchDataGenerator(urls) {
+    for (const url of urls) {
+        try {
+            // 実際のfetchの代わりにシミュレート
+            await new Promise(resolve =&gt; setTimeout(resolve, 200));
+            yield { url, data: `${url}のデータ`, status: 'success' };
+        } catch (error) {
+            yield { url, error: error.message, status: 'error' };
+        }
+    }
+}
+
+// 使用例
+async function demonstrateAsyncIterators() {
+    console.log("非同期イテレーターのデモを開始...");
+    
+    const urls = ['api/users', 'api/posts', 'api/comments'];
+    for await (const result of fetchDataGenerator(urls)) {
+        console.log(`${result.url}: ${result.status}`);
+        if (result.data) console.log("  データ:", result.data);
+    }
+}</code></pre>
+                </div>
+                <button class="btn" onclick="runAsyncIteratorExample()">実行してみる</button>
+                <div class="result" id="result-async-iterator"></div>
+            </section>
+
+            <section class="section">
+                <h3>30. 実践的なプロジェクトパターン</h3>
+                <p>実際のプロジェクトで使える設計パターンとアーキテクチャを学びます。</p>
+                <div class="code-block">
+                    <pre><code>// モジュールパターン
+const TodoApp = (function() {
+    let todos = [];
+    let nextId = 1;
+    
+    // プライベートメソッド
+    function findTodoById(id) {
+        return todos.find(todo =&gt; todo.id === id);
+    }
+    
+    function validateTodo(todo) {
+        if (!todo.title || todo.title.trim() === '') {
+            throw new Error('タイトルは必須です');
+        }
+    }
+    
+    // パブリックAPI
+    return {
+        addTodo(title, description = '') {
+            const todo = { id: nextId++, title, description, completed: false };
+            validateTodo(todo);
+            todos.push(todo);
+            return todo;
+        },
+        
+        getTodos() {
+            return [...todos]; // 防御的コピー
+        },
+        
+        updateTodo(id, updates) {
+            const todo = findTodoById(id);
+            if (!todo) throw new Error('TODOが見つかりません');
+            
+            Object.assign(todo, updates);
+            validateTodo(todo);
+            return todo;
+        },
+        
+        deleteTodo(id) {
+            const index = todos.findIndex(todo =&gt; todo.id === id);
+            if (index === -1) throw new Error('TODOが見つかりません');
+            
+            return todos.splice(index, 1)[0];
+        },
+        
+        getStats() {
+            const total = todos.length;
+            const completed = todos.filter(todo =&gt; todo.completed).length;
+            return { total, completed, remaining: total - completed };
+        }
+    };
+})();
+
+// 使用例
+function demonstrateProjectPatterns() {
+    console.log("=== TODOアプリのデモ ===");
+    
+    TodoApp.addTodo("JavaScriptを学習する", "基礎から応用まで");
+    TodoApp.addTodo("プロジェクトを作成する");
+    
+    console.log("TODOリスト:", TodoApp.getTodos());
+    
+    TodoApp.updateTodo(1, { completed: true });
+    console.log("統計:", TodoApp.getStats());
+    
+    console.log("\n=== 設計パターンの利点 ===");
+    console.log("- カプセル化");
+    console.log("- 再利用性");
+    console.log("- 保守性");
+    console.log("- テスタビリティ");
+}</code></pre>
+                </div>
+                <button class="btn" onclick="runProjectPatternsExample()">実行してみる</button>
+                <div class="result" id="result-project-patterns"></div>
+            </section>
+
+            <div class="navigation">
+                <a href="basic3.html" class="btn btn-secondary">← 上級編に戻る</a>
+                <a href="../index.html" class="btn btn-secondary">ホームに戻る</a>
+            </div>
+        </div>
+    </main>
+
+    <script src="../js/basic3-5.js"></script>
+</body>
+</html>
