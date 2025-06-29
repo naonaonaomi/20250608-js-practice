@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JavaScript練習【テスト・品質編】</title>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+    <header>
+        <h1>JavaScript</h1>
+    </header>
+    
+    <main>
+        <div class="container">
+            <h2>JavaScript テスト・品質編</h2>
+            <p>コードの品質を保つためのテスト手法とパフォーマンス最適化を学習します。<br>
+            実際の開発現場で重要なスキルを身につけましょう。</p>
+            
+            <section class="section">
+                <h3>16. ユニットテストの基礎</h3>
+                <p>関数やメソッドの動作を検証するテストの書き方を学びます。</p>
+                <div class="code-block">
+                    <pre><code>// テスト対象の関数
+function add(a, b) {
+    return a + b;
+}
+
+function divide(a, b) {
+    if (b === 0) {
+        throw new Error('ゼロで割ることはできません');
+    }
+    return a / b;
+}
+
+// シンプルなテストフレームワーク
+function test(description, testFunction) {
+    try {
+        testFunction();
+        console.log(`✅ ${description}`);
+    } catch (error) {
+        console.log(`❌ ${description}: ${error.message}`);
+    }
+}
+
+function assertEqual(actual, expected) {
+    if (actual !== expected) {
+        throw new Error(`期待値: ${expected}, 実際の値: ${actual}`);
+    }
+}
+
+// テストケース
+test('add関数は正しく加算する', () => {
+    assertEqual(add(2, 3), 5);
+    assertEqual(add(-1, 1), 0);
+});
+
+test('divide関数は正しく除算する', () => {
+    assertEqual(divide(10, 2), 5);
+    assertEqual(divide(7, 2), 3.5);
+});</code></pre>
+                </div>
+                <button class="btn" onclick="runUnitTestExample()">実行してみる</button>
+                <div class="result" id="result-unit-test"></div>
+            </section>
+
+            <section class="section">
+                <h3>17. テスト駆動開発（TDD）</h3>
+                <p>テストを先に書いてから実装するTDDの手法を学びます。</p>
+                <div class="code-block">
+                    <pre><code>// TDDのサイクル: Red → Green → Refactor
+
+// Step 1: テストを先に書く（Red）
+function testCalculator() {
+    console.log("=== TDD例: 計算機クラス ===");
+    
+    // まだ実装していない機能のテスト
+    test('Calculator.add は数値を加算する', () => {
+        const calc = new Calculator();
+        assertEqual(calc.add(5, 3), 8);
+    });
+    
+    test('Calculator.subtract は数値を減算する', () => {
+        const calc = new Calculator();
+        assertEqual(calc.subtract(10, 4), 6);
+    });
+    
+    test('Calculator.getHistory は履歴を返す', () => {
+        const calc = new Calculator();
+        calc.add(1, 2);
+        const history = calc.getHistory();
+        assertEqual(history.length, 1);
+        assertEqual(history[0].operation, 'add');
+    });
+}
+
+// Step 2: 最小限の実装（Green）
+class Calculator {
+    constructor() {
+        this.history = [];
+    }
+    
+    add(a, b) {
+        const result = a + b;
+        this.history.push({ operation: 'add', a, b, result });
+        return result;
+    }
+    
+    subtract(a, b) {
+        const result = a - b;
+        this.history.push({ operation: 'subtract', a, b, result });
+        return result;
+    }
+    
+    getHistory() {
+        return this.history;
+    }
+}</code></pre>
+                </div>
+                <button class="btn" onclick="runTDDExample()">実行してみる</button>
+                <div class="result" id="result-tdd"></div>
+            </section>
+
+            <section class="section">
+                <h3>18. コード品質とリンティング</h3>
+                <p>コードの品質を保つためのルールとベストプラクティスを学びます。</p>
+                <div class="code-block">
+                    <pre><code>// 良いコードの例
+function calculateTotalPrice(items, taxRate = 0.1) {
+    if (!Array.isArray(items)) {
+        throw new Error('items must be an array');
+    }
+    
+    const subtotal = items.reduce((sum, item) => {
+        if (typeof item.price !== 'number' || item.price < 0) {
+            throw new Error('Invalid item price');
+        }
+        return sum + item.price;
+    }, 0);
+    
+    const tax = subtotal * taxRate;
+    return Math.round((subtotal + tax) * 100) / 100;
+}
+
+// 悪いコードの例（改善前）
+function calc(x, y) {
+    var z = 0;
+    for (var i = 0; i < x.length; i++) {
+        z += x[i].p;
+    }
+    return z + z * y;
+}
+
+// コード品質チェック
+function checkCodeQuality() {
+    console.log("=== コード品質のポイント ===");
+    console.log("✅ 意味のある変数名");
+    console.log("✅ 関数は単一責任");
+    console.log("✅ エラーハンドリング");
+    console.log("✅ 型チェック");
+    console.log("✅ 適切なコメント");
+    console.log("✅ 一貫したコーディングスタイル");
+    
+    const items = [
+        { name: 'りんご', price: 100 },
+        { name: 'バナナ', price: 80 },
+        { name: 'オレンジ', price: 120 }
+    ];
+    
+    const total = calculateTotalPrice(items, 0.08);
+    console.log(`合計金額: ${total}円`);
+}</code></pre>
+                </div>
+                <button class="btn" onclick="runCodeQualityExample()">実行してみる</button>
+                <div class="result" id="result-code-quality"></div>
+            </section>
+
+            <section class="section">
+                <h3>19. パフォーマンス測定</h3>
+                <p>コードの実行時間を測定し、パフォーマンスを最適化する方法を学びます。</p>
+                <div class="code-block">
+                    <pre><code>// パフォーマンス測定の例
+function measurePerformance(func, label) {
+    const start = performance.now();
+    const result = func();
+    const end = performance.now();
+    console.log(`${label}: ${(end - start).toFixed(2)}ms`);
+    return result;
+}
+
+// 配列処理のパフォーマンス比較
+function performanceComparison() {
+    const largeArray = Array.from({ length: 100000 }, (_, i) => i);
+    
+    // for文による処理
+    function useForLoop() {
+        let sum = 0;
+        for (let i = 0; i < largeArray.length; i++) {
+            sum += largeArray[i];
+        }
+        return sum;
+    }
+    
+    // reduceによる処理
+    function useReduce() {
+        return largeArray.reduce((sum, num) => sum + num, 0);
+    }
+    
+    // forEach による処理
+    function useForEach() {
+        let sum = 0;
+        largeArray.forEach(num => sum += num);
+        return sum;
+    }
+    
+    console.log("=== パフォーマンス比較（10万要素の配列） ===");
+    measurePerformance(useForLoop, 'for文');
+    measurePerformance(useReduce, 'reduce');
+    measurePerformance(useForEach, 'forEach');
+    
+    console.log("\n=== 最適化のポイント ===");
+    console.log("- 適切なアルゴリズムの選択");
+    console.log("- 不要な処理の削除");
+    console.log("- メモリ使用量の最適化");
+    console.log("- DOM操作の最小化");
+}</code></pre>
+                </div>
+                <button class="btn" onclick="runPerformanceExample()">実行してみる</button>
+                <div class="result" id="result-performance"></div>
+            </section>
+
+            <section class="section">
+                <h3>20. メモリ管理とリーク対策</h3>
+                <p>メモリリークを防ぎ、効率的なメモリ使用を行う方法を学びます。</p>
+                <div class="code-block">
+                    <pre><code>// メモリリークの例と対策
+class EventManager {
+    constructor() {
+        this.listeners = new Map();
+        this.timers = new Set();
+    }
+    
+    // イベントリスナーの適切な管理
+    addListener(element, event, handler) {
+        element.addEventListener(event, handler);
+        
+        if (!this.listeners.has(element)) {
+            this.listeners.set(element, []);
+        }
+        this.listeners.get(element).push({ event, handler });
+    }
+    
+    // タイマーの適切な管理
+    addTimer(callback, delay) {
+        const timerId = setTimeout(callback, delay);
+        this.timers.add(timerId);
+        return timerId;
+    }
+    
+    // リソースのクリーンアップ
+    cleanup() {
+        // イベントリスナーの削除
+        for (const [element, listeners] of this.listeners) {
+            listeners.forEach(({ event, handler }) => {
+                element.removeEventListener(event, handler);
+            });
+        }
+        this.listeners.clear();
+        
+        // タイマーの削除
+        for (const timerId of this.timers) {
+            clearTimeout(timerId);
+        }
+        this.timers.clear();
+        
+        console.log("リソースをクリーンアップしました");
+    }
+}
+
+// WeakMapとWeakSetの活用
+function demonstrateWeakReferences() {
+    console.log("=== WeakMap/WeakSet の活用 ===");
+    
+    // WeakMapは参照が削除されると自動的にガベージコレクションされる
+    const weakMap = new WeakMap();
+    const obj = { name: "テストオブジェクト" };
+    
+    weakMap.set(obj, "関連データ");
+    console.log("WeakMapにデータを設定:", weakMap.has(obj));
+    
+    console.log("\n=== メモリリーク対策 ===");
+    console.log("✅ イベントリスナーの適切な削除");
+    console.log("✅ タイマーのクリアアップ");
+    console.log("✅ 循環参照の回避");
+    console.log("✅ WeakMap/WeakSetの活用");
+}</code></pre>
+                </div>
+                <button class="btn" onclick="runMemoryManagementExample()">実行してみる</button>
+                <div class="result" id="result-memory-management"></div>
+            </section>
+
+            <div class="navigation">
+                <a href="basic2.html" class="btn btn-secondary">← 応用編に戻る</a>
+                <a href="../index.html" class="btn btn-secondary">ホームに戻る</a>
+                <a href="basic3.html" class="btn">上級編へ →</a>
+            </div>
+        </div>
+    </main>
+
+    <script src="../js/basic2-5.js"></script>
+</body>
+</html>
