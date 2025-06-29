@@ -28,7 +28,7 @@
     return input.replace(/</g, '&lt;').replace(/>/g, '&gt;');
 }
 
-const userInput = "<script>alert('XSS')</script>";
+const userInput = "&lt;script&gt;alert('悪意のあるコード')&lt;/script&gt;";
 const safe = sanitizeInput(userInput);
 console.log("安全な文字列:", safe);</code></pre>
           <button id="btn1">実行してみる</button>

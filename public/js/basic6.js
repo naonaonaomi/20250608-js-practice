@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 return input.replace(/</g, '&lt;').replace(/>/g, '&gt;');
             }
             
-            const userInput = "<script>alert('XSS')</script>";
+            const userInput = "&lt;script&gt;alert('悪意のあるコード')&lt;/script&gt;";
             const safe = sanitizeInput(userInput);
             result.innerHTML += `<p>安全な文字列: ${safe}</p>`;
         } catch (error) {
