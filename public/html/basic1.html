@@ -27,9 +27,11 @@
           <pre><code>let age = 25;
 let name = "田中太郎";
 let isStudent = true;
+let person = { name: "佐藤", age: 30 };
+let colors = ["赤", "青", "緑"];
 
-console.log("年齢:", age);
-console.log("名前:", name);</code></pre>
+console.log("年齢:", age, "名前:", name);
+console.log("学生:", isStudent, "人物:", person);</code></pre>
           <button id="btn1">実行してみる</button>
         </div>
         <div class="result" id="result1"></div>
@@ -43,9 +45,9 @@ console.log("名前:", name);</code></pre>
       <div class="code-result-container">
         <div>
           <pre><code>let x = 10, y = 3;
-console.log("足し算:", x + y);
-console.log("比較:", x > y);
-console.log("論理:", x > 5 && y < 5);</code></pre>
+console.log("計算:", x + y, x - y, x * y, x / y);
+console.log("比較:", x &gt; y, x === y);
+console.log("論理:", x &gt; 18 && true);</code></pre>
           <button id="btn2">実行してみる</button>
         </div>
         <div class="result" id="result2"></div>
@@ -59,10 +61,12 @@ console.log("論理:", x > 5 && y < 5);</code></pre>
       <div class="code-result-container">
         <div>
           <pre><code>let score = 85;
-if (score >= 90) {
-    console.log("優秀！");
-} else {
-    console.log("良い！");
+if (score &gt;= 90) console.log("優秀！");
+else if (score &gt;= 70) console.log("良い！");
+else console.log("頑張ろう！");
+
+for (let i = 1; i &lt;= 3; i++) {
+    console.log(`${i}回目`);
 }</code></pre>
           <button id="btn3">実行してみる</button>
         </div>
@@ -79,8 +83,10 @@ if (score >= 90) {
           <pre><code>function greet(name) {
     return `こんにちは、${name}さん！`;
 }
+const double = (num) =&gt; num * 2;
 
-console.log(greet("山田"));</code></pre>
+console.log(greet("山田"));
+console.log("5の2倍:", double(5));</code></pre>
           <button id="btn4">実行してみる</button>
         </div>
         <div class="result" id="result4"></div>
@@ -93,11 +99,12 @@ console.log(greet("山田"));</code></pre>
       <p>オブジェクトや配列の基本操作を学びます。</p>
       <div class="code-result-container">
         <div>
-          <pre><code>let student = { name: "鈴木花子", age: 20 };
+          <pre><code>let student = { name: "鈴木花子", age: 20, grade: "A" };
 let fruits = ["りんご", "バナナ"];
 
-console.log("学生:", student.name);
-console.log("果物:", fruits[0]);</code></pre>
+console.log("学生:", student.name, student.age);
+fruits.push("オレンジ");
+console.log("果物:", fruits[0], fruits);</code></pre>
           <button id="btn5">実行してみる</button>
         </div>
         <div class="result" id="result5"></div>
@@ -111,11 +118,12 @@ console.log("果物:", fruits[0]);</code></pre>
       <div class="code-result-container">
         <div>
           <pre><code>let numbers = [1, 2, 3, 4, 5];
-let doubled = numbers.map(num => num * 2);
-let evens = numbers.filter(num => num % 2 === 0);
+let doubled = numbers.map(num =&gt; num * 2);
+let evens = numbers.filter(num =&gt; num % 2 === 0);
+let found = numbers.find(num =&gt; num &gt; 3);
 
-console.log("2倍:", doubled);
-console.log("偶数:", evens);</code></pre>
+console.log("元配列:", numbers);
+console.log("2倍:", doubled, "偶数:", evens, "見つけた:", found);</code></pre>
           <button id="btnArray">実行してみる</button>
         </div>
         <div class="result" id="resultArray"></div>
@@ -129,9 +137,9 @@ console.log("偶数:", evens);</code></pre>
       <div class="code-result-container">
         <div>
           <pre><code>let target = document.getElementById('demo');
-target.textContent = "変更されました！";
+target.textContent = "JavaScriptで変更されました！";
 target.style.color = "blue";
-
+target.style.fontWeight = "bold";
 console.log("要素を変更しました");</code></pre>
           <button id="btn6">実行してみる</button>
         </div>
@@ -146,11 +154,15 @@ console.log("要素を変更しました");</code></pre>
       <p>文字列の中に変数を埋め込む便利な方法を学びます。</p>
       <div class="code-result-container">
         <div>
-          <pre><code>let userName = "田中";
-let userAge = 25;
+          <pre><code>let userName = "田中", userAge = 25;
 let message = `ユーザー: ${userName}, 年齢: ${userAge}歳`;
 
-console.log(message);</code></pre>
+let user = { name: "佐藤", age: 30, city: "東京" };
+let { name, age, city } = user;
+
+let arr1 = [1, 2, 3];
+let arr2 = [...arr1, 4, 5];
+console.log(message, arr2);</code></pre>
           <button id="btn8">実行してみる</button>
         </div>
         <div class="result" id="result8"></div>
@@ -162,4 +174,4 @@ console.log(message);</code></pre>
   </main>
   <script src="../js/basic1.js"></script>
 </body>
-</html>    
+</html>        

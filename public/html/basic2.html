@@ -33,9 +33,9 @@ export function add(a, b) {
 
 import { add } from './math.js';
 console.log("加算:", add(5, 3));</code></pre>
-                        <button class="btn" onclick="runModuleExample()">実行してみる</button>
+                        <button id="btn1">実行してみる</button>
                     </div>
-                    <div class="result" id="result-module"></div>
+                    <div class="result" id="result1"></div>
                 </div>
             </section>
 
@@ -52,9 +52,9 @@ export default class Calculator {
 import Calculator from './calculator.js';
 const calc = new Calculator();
 console.log("結果:", calc.add(10, 5));</code></pre>
-                        <button class="btn" onclick="runDefaultExportExample()">実行してみる</button>
+                        <button id="btn2">実行してみる</button>
                     </div>
-                    <div class="result" id="result-default-export"></div>
+                    <div class="result" id="result2"></div>
                 </div>
             </section>
 
@@ -69,9 +69,9 @@ async function loadModule() {
     console.log("動的読み込み成功");
     return module.add(15, 25);
 }</code></pre>
-                        <button class="btn" onclick="runDynamicImportExample()">実行してみる</button>
+                        <button id="btn3">実行してみる</button>
                     </div>
-                    <div class="result" id="result-dynamic-import"></div>
+                    <div class="result" id="result3"></div>
                 </div>
             </section>
 
@@ -86,9 +86,9 @@ const emptyUser = {};
 // Optional Chaining（安全なアクセス）
 console.log("都市1:", user.address?.city);
 console.log("都市2:", emptyUser.address?.city);</code></pre>
-                        <button class="btn" onclick="runOptionalChainingExample()">実行してみる</button>
+                        <button id="btn4">実行してみる</button>
                     </div>
-                    <div class="result" id="result-optional-chaining"></div>
+                    <div class="result" id="result4"></div>
                 </div>
             </section>
 
@@ -102,9 +102,9 @@ console.log("都市2:", emptyUser.address?.city);</code></pre>
 // ?? 演算子（Nullish Coalescing）
 console.log("テーマ:", config.theme ?? "デフォルト");
 console.log("タイムアウト:", config.timeout ?? 5000);</code></pre>
-                        <button class="btn" onclick="runNullishCoalescingExample()">実行してみる</button>
+                        <button id="btn5">実行してみる</button>
                     </div>
-                    <div class="result" id="result-nullish-coalescing"></div>
+                    <div class="result" id="result5"></div>
                 </div>
             </section>
 
@@ -117,9 +117,9 @@ console.log("タイムアウト:", config.timeout ?? 5000);</code></pre>
 console.log("npm install lodash");
 console.log("npm run start");
 console.log("npm update");</code></pre>
-                        <button class="btn" onclick="runNpmBasicsExample()">実行してみる</button>
+                        <button id="btn6">実行してみる</button>
                     </div>
-                    <div class="result" id="result-npm-basics"></div>
+                    <div class="result" id="result6"></div>
                 </div>
             </section>
 
@@ -132,4 +132,4 @@ console.log("npm update");</code></pre>
 
     <script src="../js/basic2.js"></script>
 </body>
-</html>    
+</html>      
