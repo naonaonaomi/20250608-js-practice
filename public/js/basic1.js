@@ -180,7 +180,7 @@
         return captureConsoleOutput(() => {
           let target = document.getElementById('demo');
           target.textContent = "JavaScriptで変更されました！";
-          target.style.color = "blue";
+          target.style.color = "white";
           target.style.fontWeight = "bold";
           console.log("要素を変更しました");
         });
