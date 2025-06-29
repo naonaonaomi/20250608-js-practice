@@ -1,188 +1,82 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>JavaScript練習【上級編】</title>
-  <link rel="stylesheet" href="../css/style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JavaScript練習【応用編】</title>
+    <link rel="stylesheet" href="../css/style.css">
 </head>
 <body>
-  <header class="global-header">
-    <div class="header-inner">
-      <a href="../index.html" class="header-title">JavaScript</a>
-    </div>
-  </header>
-  <main>
-    <section id="async-await">
-      <h2>20. 非同期処理（Promise・async/await）</h2>
-      <p>時間のかかる処理を効率的に扱う方法を学びます。</p>
-      <pre><code>function fetchData(id) {
-    return new Promise((resolve) => {
-        console.log(`データ${id}取得中...`);
-        setTimeout(() => resolve({ id, name: `データ${id}` }), 1000);
-    });
-}
-
-async function getData() {
-    try {
-        let data = await fetchData(123);
-        console.log("完了:", data);
-    } catch (error) {
-        console.log("エラー:", error.message);
-    }
-}
-getData();</code></pre>
-      <button id="btn-async">実行してみる</button>
-      <div class="result" id="result-async"></div>
-    </section>
-
-    <section id="scope-closure">
-      <h2>21. スコープとクロージャ</h2>
-      <p>変数の有効範囲と、関数が外側の変数を覚える仕組みを学びます。</p>
-      <pre><code>function counter(start) {
-    let count = start;
-    return function() {
-        count++;
-        console.log("カウント:", count);
-        return count;
-    };
-}
-
-let counter1 = counter(0);
-let counter2 = counter(100);
-counter1(); // 1
-counter1(); // 2
-counter2(); // 101
-console.log("各クロージャは独自の値を保持");</code></pre>
-      <button id="btn-scope">実行してみる</button>
-      <div class="result" id="result-scope"></div>
-    </section>
-
-    <section id="prototype-this">
-      <h2>22. プロトタイプとthis</h2>
-      <p>JavaScriptのオブジェクト指向の基盤となる概念を学びます。</p>
-      <pre><code>function Car(name) {
-    this.name = name;
-    this.speed = 0;
-}
-
-Car.prototype.accelerate = function() {
-    this.speed += 10;
-    console.log(`${this.name}の速度: ${this.speed}km/h`);
-};
-
-let car1 = new Car("プリウス");
-let car2 = new Car("アクア");
-car1.accelerate();
-car2.accelerate();
-console.log(`車1: ${car1.name} ${car1.speed}km/h`);</code></pre>
-      <button id="btn-prototype">実行してみる</button>
-      <div class="result" id="result-prototype"></div>
-    </section>
-
-    <section id="regex">
-      <h2>23. 正規表現</h2>
-      <p>文字列のパターンマッチングと検索・置換を効率的に行う方法を学びます。</p>
-      <div style="margin: 10px 0;">
-        <input type="text" id="regex-input" placeholder="検証したいテキストを入力" value="連絡先: taro@example.com, 090-1234-5678" style="width: 100%; padding: 8px; margin-bottom: 10px;">
-      </div>
-      <pre><code>let text = document.getElementById('regex-input').value;
-let emailRegex = /[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/g;
-let phoneRegex = /\d{3}-\d{4}-\d{4}/g;
-
-console.log("メール:", text.match(emailRegex));
-console.log("電話:", text.match(phoneRegex));
-console.log("置換後:", text.replace(emailRegex, "[メール]"));</code></pre>
-      <button id="btn-regex">実行してみる</button>
-      <div class="result" id="result-regex"></div>
-    </section>
-
-    <section id="fetch-api">
-      <h2>24. Fetch API（Web API呼び出し）</h2>
-      <p>インターネット上のデータを取得する方法を学びます。</p>
-      <pre><code>async function fetchUserData() {
-    try {
-        console.log("データ取得中...");
-        let response = await fetch('https://jsonplaceholder.typicode.com/users/1');
-        if (!response.ok) throw new Error(`エラー: ${response.status}`);
-        
-        let user = await response.json();
-        console.log("ユーザー:", user.name);
-        console.log("メール:", user.email);
-    } catch (error) {
-        console.log("エラー:", error.message);
-        console.log("ダミーデータ: 山田太郎");
-    }
-}
-fetchUserData();</code></pre>
-      <button id="btn-fetch">実行してみる</button>
-      <div class="result" id="result-fetch"></div>
-    </section>
-
-    <section id="debugging">
-      <h2>25. デバッグ手法</h2>
-      <p>効率的にバグを見つけて修正する方法を学びます。</p>
-      <pre><code>function calculatePrice(items) {
-    console.log("計算開始:", items);
-    let total = 0;
+    <header class="global-header">
+        <div class="header-inner">
+            <a href="../index.html" class="header-title">JavaScript</a>
+        </div>
+    </header>
     
-    items.forEach(item => {
-        if (typeof item.price !== 'number') {
-            console.warn("価格エラー:", item);
-            return;
-        }
-        total += item.price * item.quantity;
-    });
-    
-    console.log("合計:", total + "円");
-    return total;
-}
+    <main>
+        <section id="intro">
+            <h2>DOM操作とイベント処理</h2>
+            <p>HTML要素の操作やユーザーのアクションに応じた処理を学びます。</p>
+        </section>
 
-let cart = [
-    { name: "りんご", price: 100, quantity: 2 },
-    { name: "エラー", price: "abc", quantity: 1 },
-    { name: "バナナ", price: 80, quantity: 3 }
-];
-calculatePrice(cart);</code></pre>
-      <button id="btn-debug">実行してみる</button>
-      <div class="result" id="result-debug"></div>
-    </section>
+        <section id="section1">
+            <h2>1. DOM要素の取得</h2>
+            <p>様々な方法でHTML要素を取得する方法を学びます。</p>
+            <div class="code-result-container">
+                <div>
+                    <pre><code>let element1 = document.getElementById('sample');
+let element2 = document.querySelector('.sample-class');
+let element3 = document.querySelectorAll('div');
 
-    <section id="advanced-arrays">
-      <h2>26. 高度な配列操作</h2>
-      <p>配列を効率的に処理する高度なメソッドを学びます。</p>
-      <pre><code>let products = [
-    { name: "PC", price: 80000, category: "tech", inStock: true },
-    { name: "机", price: 15000, category: "furniture", inStock: false },
-    { name: "スマホ", price: 60000, category: "tech", inStock: true }
-];
+console.log("ID:", element1);
+console.log("クラス:", element2);</code></pre>
+                    <button id="btn1">実行してみる</button>
+                </div>
+                <div class="result" id="result1"></div>
+            </div>
+        </section>
 
-let inStock = products.filter(p => p.inStock);
-console.log("在庫あり:", inStock.map(p => p.name));
+        <section id="section2">
+            <h2>2. クリックイベントの処理</h2>
+            <p>ボタンがクリックされた時の処理を設定する方法を学びます。</p>
+            <div class="code-result-container">
+                <div>
+                    <pre><code>let button = document.getElementById('btn-event');
 
-let byCategory = products.reduce((groups, p) => {
-    groups[p.category] = groups[p.category] || [];
-    groups[p.category].push(p.name);
-    return groups;
-}, {});
-console.log("カテゴリ別:", byCategory);
+button.addEventListener('click', function() {
+    console.log('クリックされました!');
+    console.log('時刻:', new Date().toLocaleTimeString());
+});</code></pre>
+                    <button id="btn2">実行してみる</button>
+                </div>
+                <div class="result" id="result2"></div>
+            </div>
+        </section>
 
-let prices = products.map(p => p.price);
-console.log("合計:", prices.reduce((a, b) => a + b, 0) + "円");
+        <section id="section3">
+            <h2>3. フォーム入力の取得</h2>
+            <p>入力フィールドの値を取得し、フォーム送信を制御する方法を学びます。</p>
+            <div class="code-result-container">
+                <div>
+                    <pre><code>let form = document.getElementById('sample-form');
+let input = document.getElementById('input-text');
 
-let expensiveTech = products
-    .filter(p => p.category === "tech" && p.price > 50000)
-    .map(p => p.name);
-console.log("高価なtech:", expensiveTech);</code></pre>
-      <button id="btn-arrays">実行してみる</button>
-      <div class="result" id="result-arrays"></div>
-    </section>
+form.addEventListener('submit', function(event) {
+    event.preventDefault();
+    let value = input.value;
+    console.log("入力値:", value);
+});</code></pre>
+                    <button id="btn3">実行してみる</button>
+                </div>
+                <div class="result" id="result3"></div>
+            </div>
+        </section>
 
-    <div style="text-align:center; margin: 0 0 20px 0;">
-      <button onclick="location.href='basic2-5.html'">◀ テスト・品質編へ</button>
-      <button onclick="location.href='basic3-5.html'">セキュリティ・実践編へ ▶</button>
-    </div>
-  </main>
-  <script src="../js/basic3.js"></script>
+        <div style="text-align:center; margin: 0 0 20px 0;">
+            <button onclick="location.href='basic2.html'">◀ ES6+モジュール編へ</button>
+            <button onclick="location.href='basic4.html'">テスト・品質編へ ▶</button>
+        </div>
+    </main>
+    <script src="../js/basic3.js"></script>
 </body>
-</html>  
+</html>

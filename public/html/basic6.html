@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JavaScript練習【セキュリティ・実践編】</title>
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+  <header class="global-header">
+    <div class="header-inner">
+      <a href="../index.html" class="header-title">JavaScript</a>
+    </div>
+  </header>
+  <main>
+    <section id="intro">
+      <h2>セキュリティと実践パターン</h2>
+      <p>実際の開発で重要なセキュリティ対策と実践的なパターンを学びます。</p>
+    </section>
+
+    <!-- 1. XSS対策 セクション開始 -->
+    <section id="section1">
+      <h2>1. XSS対策</h2>
+      <p>クロスサイトスクリプティング攻撃を防ぐ方法を学びます。</p>
+      <div class="code-result-container">
+        <div>
+          <pre><code>function sanitizeInput(input) {
+    return input.replace(/</g, '&lt;').replace(/>/g, '&gt;');
+}
+
+const userInput = "<script>alert('XSS')</script>";
+const safe = sanitizeInput(userInput);
+console.log("安全な文字列:", safe);</code></pre>
+          <button id="btn1">実行してみる</button>
+        </div>
+        <div class="result" id="result1"></div>
+      </div>
+    </section>
+
+    <!-- 2. データ検証 セクション開始 -->
+    <section id="section2">
+      <h2>2. データ検証</h2>
+      <p>ユーザー入力の検証パターンを学びます。</p>
+      <div class="code-result-container">
+        <div>
+          <pre><code>function validateEmail(email) {
+    const pattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return pattern.test(email);
+}
+
+console.log("有効:", validateEmail("test@example.com"));
+console.log("無効:", validateEmail("invalid-email"));</code></pre>
+          <button id="btn2">実行してみる</button>
+        </div>
+        <div class="result" id="result2"></div>
+      </div>
+    </section>
+
+    <!-- 3. パフォーマンス最適化 セクション開始 -->
+    <section id="section3">
+      <h2>3. パフォーマンス最適化</h2>
+      <p>効率的なコードの書き方を学びます。</p>
+      <div class="code-result-container">
+        <div>
+          <pre><code>console.time("処理時間");
+let sum = 0;
+for (let i = 0; i < 1000; i++) {
+    sum += i;
+}
+console.timeEnd("処理時間");
+console.log("合計:", sum);</code></pre>
+          <button id="btn3">実行してみる</button>
+        </div>
+        <div class="result" id="result3"></div>
+      </div>
+    </section>
+
+    <div style="text-align:center; margin: 0 0 20px 0;">
+      <button onclick="location.href='basic5.html'">◀ 上級編へ</button>
+      <button onclick="location.href='../index.html'">ホームへ</button>
+    </div>
+  </main>
+  <script src="../js/basic6.js"></script>
+</body>
+</html>

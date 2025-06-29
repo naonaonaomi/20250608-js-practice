@@ -1,354 +1,191 @@
-/**
- * ==========================================
- * JavaScript基礎2: DOM操作とイベント処理
- * ==========================================
- */
-
 (function() {
-  'use strict';
+    'use strict';
 
-  // ========================================
-  // ユーティリティ関数
-  // ========================================
+    let originalConsoleLog = console.log;
+    let consoleOutput = [];
 
-  /**
-   * DOM要素を取得するユーティリティ関数
-   * @param {string} id - 要素のID
-   * @returns {HTMLElement|null} DOM要素
-   */
-  const $ = (id) => document.getElementById(id);
-  
-  /**
-   * コンソール出力をキャプチャして画面に表示する関数
-   * @param {Function} func - 実行する関数
-   * @returns {Array} 出力の配列
-   */
-  function captureConsoleOutput(func) {
-    const output = [];
-    const originalLog = console.log;
-    
-    // console.logを一時的に置き換え
-    console.log = (...args) => {
-      const message = args.map(arg => {
-        if (typeof arg === 'object' && arg !== null) {
-          return JSON.stringify(arg, null, 2);
+    function captureConsoleLog() {
+        consoleOutput = [];
+        console.log = function(...args) {
+            consoleOutput.push(args.map(arg => 
+                typeof arg === 'object' ? JSON.stringify(arg, null, 2) : String(arg)
+            ).join(' '));
+            originalConsoleLog.apply(console, args);
+        };
+    }
+
+    function restoreConsoleLog() {
+        console.log = originalConsoleLog;
+    }
+
+    function displayResult(elementId) {
+        const resultElement = document.getElementById(elementId);
+        if (resultElement) {
+            resultElement.innerHTML = consoleOutput.length > 0 
+                ? consoleOutput.map(line => `<div>${line}</div>`).join('')
+                : '<div>出力がありません</div>';
         }
-        return String(arg);
-      }).join(' ');
-      output.push(message);
-      originalLog(...args); // 元のconsole.logも実行
+        restoreConsoleLog();
+    }
+
+    window.runModuleExample = function() {
+        captureConsoleLog();
+        
+        const mathModule = {
+            add: function(a, b) { return a + b; },
+            multiply: function(a, b) { return a * b; },
+            PI: 3.14159
+        };
+        
+        console.log("加算:", mathModule.add(5, 3));
+        console.log("乗算:", mathModule.multiply(4, 7));
+        console.log("円周率:", mathModule.PI);
+        console.log("モジュールの利点:");
+        console.log("- コードの再利用性");
+        console.log("- 名前空間の分離");
+        console.log("- 依存関係の明確化");
+        
+        displayResult('result-module');
     };
-    
-    try {
-      func();
-    } finally {
-      // console.logを元に戻す
-      console.log = originalLog;
-    }
-    
-    return output;
-  }
 
-  /**
-   * 結果を画面に表示する関数
-   * @param {HTMLElement} resultElement - 結果表示要素
-   * @param {Array|string} output - 表示する内容
-   */
-  function displayResult(resultElement, output) {
-    if (Array.isArray(output)) {
-      resultElement.innerHTML = output.map(line => `<div>${line}</div>`).join('');
-    } else {
-      resultElement.textContent = output;
-    }
-    
-    // 結果表示のスタイル設定
-    resultElement.style.padding = '10px';
-    resultElement.style.margin = '10px 0';
-    resultElement.style.fontFamily = 'monospace';
-  }
-
-  // ========================================
-  // DOM取得とイベント処理
-  // ========================================
-
-  /**
-   * 1. DOM取得の実装
-   */
-  function initializeDomGet() {
-    const btnDomGet = $('btn-dom-get');
-    if (btnDomGet) {
-      btnDomGet.addEventListener('click', () => {
-        const output = captureConsoleOutput(() => {
-          let element1 = document.getElementById('sample');
-          let element2 = document.querySelector('.sample-class');
-          let element3 = document.querySelector('div');
-
-          console.log("ID:", element1.textContent);
-          console.log("クラス:", element2.textContent);
-        });
-        displayResult($('result-dom-get'), output);
-      });
-    }
-  }
-
-  /**
-   * 2. イベントリスナーの実装
-   */
-  function initializeEvent() {
-    const btnEvent = $('btn-event');
-    if (btnEvent) {
-      btnEvent.addEventListener('click', function() {
-        const output = captureConsoleOutput(() => {
-          console.log("クリックされました！");
-          console.log("時刻:", new Date().toLocaleTimeString());
-        });
-        displayResult($('result-event'), output);
-      });
-    }
-  }
-
-  /**
-   * 3. フォームの入力取得の実装
-   */
-  function initializeForm() {
-    const form = $('sample-form');
-    if (form) {
-      const input = $('input-text');
-      
-      form.addEventListener('submit', function(event) {
-        event.preventDefault();
+    window.runDefaultExportExample = function() {
+        captureConsoleLog();
         
-        const output = captureConsoleOutput(() => {
-          let value = input.value;
-          if (value.trim() === "") {
-            console.log("エラー: 名前を入力してください");
-          } else {
-            console.log(`こんにちは、${value}さん！`);
-          }
-        });
-        displayResult($('result-form'), output);
-      });
-    }
-  }
-
-  /**
-   * 4. クラス操作の実装
-   */
-  function initializeClassOperations() {
-    const target = $('class-target');
-    if (!target) return;
-
-    // addボタンの処理
-    const btnAdd = $('btn-add');
-    if (btnAdd) {
-      btnAdd.addEventListener('click', () => {
-        target.classList.add('active');
-        const output = captureConsoleOutput(() => {
-          console.log("activeクラス追加");
-        });
-        displayResult($('result-classlist'), output);
-      });
-    }
-
-    // removeボタンの処理
-    const btnRemove = $('btn-remove');
-    if (btnRemove) {
-      btnRemove.addEventListener('click', () => {
-        target.classList.remove('active');
-        const output = captureConsoleOutput(() => {
-          console.log("activeクラス削除");
-        });
-        displayResult($('result-classlist'), output);
-      });
-    }
-
-    // toggleボタンの処理
-    const btnToggle = $('btn-toggle');
-    if (btnToggle) {
-      btnToggle.addEventListener('click', () => {
-        target.classList.toggle('active');
-        const output = captureConsoleOutput(() => {
-          console.log("activeクラス切り替え");
-        });
-        displayResult($('result-classlist'), output);
-      });
-    }
-  }
-
-  /**
-   * 5. スタイル変更の実装
-   */
-  function initializeStyleChanges() {
-    const styleTarget = $('style-target');
-    
-    const btnStyle = $('btn-style');
-    if (btnStyle && styleTarget) {
-      btnStyle.addEventListener('click', () => {
-        styleTarget.style.color = "white";
-        styleTarget.style.backgroundColor = "red";
-        styleTarget.style.fontSize = "20px";
-        
-        const output = captureConsoleOutput(() => {
-          console.log("スタイル変更完了");
-        });
-        displayResult($('result-style'), output);
-      });
-    }
-
-    const btnResetStyle = $('btn-reset-style');
-    if (btnResetStyle && styleTarget) {
-      btnResetStyle.addEventListener('click', () => {
-        styleTarget.style.color = "";
-        styleTarget.style.backgroundColor = "";
-        styleTarget.style.fontSize = "";
-        
-        const output = captureConsoleOutput(() => {
-          console.log("スタイルをリセットしました");
-        });
-        displayResult($('result-style'), output);
-      });
-    }
-  }
-
-  /**
-   * 6. 要素の追加と削除の実装
-   */
-  function initializeNodeOperations() {
-    const nodeArea = $('node-area');
-    let addedElement = null;
-
-    const btnAddNode = $('btn-add-node');
-    if (btnAddNode && nodeArea) {
-      btnAddNode.addEventListener('click', () => {
-        if (!addedElement) {
-          addedElement = document.createElement('div');
-          addedElement.textContent = '新しく追加された要素！';
-          addedElement.style.backgroundColor = '#e1f5fe';
-          addedElement.style.padding = '10px';
-          nodeArea.appendChild(addedElement);
-          
-          const output = captureConsoleOutput(() => {
-            console.log("要素を追加しました");
-          });
-          displayResult($('result-node'), output);
+        class Calculator {
+            add(a, b) { return a + b; }
+            subtract(a, b) { return a - b; }
+            multiply(a, b) { return a * b; }
+            divide(a, b) { return b !== 0 ? a / b : 'エラー: ゼロ除算'; }
         }
-      });
-    }
+        
+        const version = '1.0.0';
+        
+        const calc = new Calculator();
+        console.log("計算結果:", calc.add(10, 5));
+        console.log("減算:", calc.subtract(20, 8));
+        console.log("除算:", calc.divide(15, 3));
+        console.log("バージョン:", version);
+        console.log("デフォルトエクスポートの特徴:");
+        console.log("- モジュールの主要機能を表現");
+        console.log("- インポート時に任意の名前を付けられる");
+        
+        displayResult('result-default-export');
+    };
 
-    const btnRemoveNode = $('btn-remove-node');
-    if (btnRemoveNode && nodeArea) {
-      btnRemoveNode.addEventListener('click', () => {
-        if (addedElement && nodeArea.contains(addedElement)) {
-          nodeArea.removeChild(addedElement);
-          addedElement = null;
-          
-          const output = captureConsoleOutput(() => {
-            console.log("要素を削除しました");
-          });
-          displayResult($('result-node'), output);
+    window.runDynamicImportExample = function() {
+        captureConsoleLog();
+        
+        function simulateDynamicImport() {
+            console.log("動的インポートをシミュレート中...");
+            
+            setTimeout(() => {
+                const mathModule = {
+                    add: (a, b) => a + b,
+                    multiply: (a, b) => a * b
+                };
+                
+                console.log("動的読み込み成功");
+                console.log("加算結果:", mathModule.add(15, 25));
+                console.log("動的インポートの利点:");
+                console.log("- 必要な時だけ読み込み");
+                console.log("- バンドルサイズの最適化");
+                console.log("- 条件付き読み込み");
+            }, 1000);
         }
-      });
-    }
-  }
+        
+        simulateDynamicImport();
+        console.log("非同期読み込み開始...");
+        
+        displayResult('result-dynamic-import');
+    };
 
-  /**
-   * 7. クラス例の実装
-   */
-  function initializeClassExamples() {
-    const btnClass = $('btn-class');
-    if (btnClass) {
-      btnClass.addEventListener('click', () => {
-        const output = captureConsoleOutput(() => {
-          class Animal {
-            constructor(name, species) {
-              this.name = name;
-              this.species = species;
-            }
-            greet() {
-              return `こんにちは、${this.species}の${this.name}です！`;
-            }
-          }
-
-          let dog = new Animal('ポチ', '犬');
-          let cat = new Animal('ミケ', '猫');
-          console.log(dog.greet());
-          console.log(cat.greet());
-        });
-        displayResult($('result-class'), output);
-      });
-    }
-  }
-
-  /**
-   * 8. JSON操作の実装
-   */
-  function initializeJsonOperations() {
-    const btnJson = $('btn-json');
-    if (btnJson) {
-      btnJson.addEventListener('click', () => {
-        const output = captureConsoleOutput(() => {
-          let user = {
+    window.runOptionalChainingExample = function() {
+        captureConsoleLog();
+        
+        const user = {
             name: "田中太郎",
-            age: 25,
-            hobbies: ["読書", "映画", "プログラミング"]
-          };
+            address: {
+                city: "東京",
+                zipCode: "100-0001"
+            },
+            hobbies: ["読書", "映画鑑賞"]
+        };
 
-          let jsonString = JSON.stringify(user);
-          let parsedUser = JSON.parse(jsonString);
+        const userWithoutAddress = {
+            name: "佐藤花子"
+        };
 
-          console.log("JSON文字列:", jsonString);
-          console.log("名前:", parsedUser.name);
-          console.log("趣味:", parsedUser.hobbies.join(", "));
-        });
-        displayResult($('result-json'), output);
-      });
-    }
-  }
+        console.log("=== Optional Chaining の例 ===");
+        console.log("都市1:", user.address && user.address.city);
+        console.log("都市2:", userWithoutAddress.address && userWithoutAddress.address.city);
+        
+        console.log("\n=== 安全なアクセス方法 ===");
+        console.log("趣味:", user.hobbies && user.hobbies[0]);
+        console.log("存在しないプロパティ:", userWithoutAddress.hobbies && userWithoutAddress.hobbies[0]);
+        
+        console.log("\n=== Optional Chaining の利点 ===");
+        console.log("- エラーを防ぐ");
+        console.log("- コードが簡潔になる");
+        console.log("- 深いネストでも安全");
+        
+        displayResult('result-optional-chaining');
+    };
 
-  /**
-   * 9. ローカルストレージの実装
-   */
-  function initializeLocalStorage() {
-    const btnStorage = $('btn-storage');
-    const btnStorageGet = $('btn-storage-get');
-    
-    if (btnStorage) {
-      btnStorage.addEventListener('click', () => {
-        const output = captureConsoleOutput(() => {
-          let message = document.getElementById('storage-input').value;
-          localStorage.setItem('userMessage', message);
-          console.log("保存しました:", message);
+    window.runNullishCoalescingExample = function() {
+        captureConsoleLog();
+        
+        const config = {
+            theme: null,
+            timeout: 0,
+            debug: false,
+            apiUrl: undefined
+        };
 
-          let savedMessage = localStorage.getItem('userMessage');
-          console.log("取得しました:", savedMessage);
-        });
-        displayResult($('result-storage'), output);
-      });
-    }
-  }
+        console.log("=== || 演算子の問題点 ===");
+        console.log("テーマ:", config.theme || "デフォルト");
+        console.log("タイムアウト:", config.timeout || 5000, "(0が偽値として扱われる)");
+        console.log("デバッグ:", config.debug || true, "(falseが偽値として扱われる)");
 
-  // ========================================
-  // 初期化
-  // ========================================
+        console.log("\n=== ?? 演算子（Nullish Coalescing）===");
+        console.log("テーマ:", config.theme ?? "デフォルト");
+        console.log("タイムアウト:", config.timeout ?? 5000, "(0はそのまま)");
+        console.log("デバッグ:", config.debug ?? true, "(falseはそのまま)");
+        console.log("API URL:", config.apiUrl ?? "https://api.example.com");
+        
+        console.log("\n=== 使い分け ===");
+        console.log("?? : null/undefinedのみをチェック");
+        console.log("|| : すべての偽値をチェック");
+        
+        displayResult('result-nullish-coalescing');
+    };
 
-  function initialize() {
-    console.log('basic2.js が読み込まれました');
-    initializeDomGet();
-    initializeEvent();
-    initializeForm();
-    initializeClassOperations();
-    initializeStyleChanges();
-    initializeNodeOperations();
-    initializeClassExamples();
-    initializeJsonOperations();
-    initializeLocalStorage();
-  }
+    window.runNpmBasicsExample = function() {
+        captureConsoleLog();
+        
+        console.log("=== npm（Node Package Manager）とは ===");
+        console.log("- JavaScriptのパッケージ管理ツール");
+        console.log("- 世界最大のソフトウェアレジストリ");
+        console.log("- 依存関係の管理を自動化");
+        
+        console.log("\n=== 主要なnpmコマンド ===");
+        console.log("npm init                 # package.jsonを作成");
+        console.log("npm install <package>    # パッケージをインストール");
+        console.log("npm install --save-dev   # 開発依存関係として追加");
+        console.log("npm update              # パッケージを更新");
+        console.log("npm run <script>        # スクリプトを実行");
+        
+        console.log("\n=== package.jsonの重要性 ===");
+        console.log("- プロジェクトの設定ファイル");
+        console.log("- 依存関係の記録");
+        console.log("- スクリプトの定義");
+        console.log("- メタデータの管理");
+        
+        console.log("\n=== セマンティックバージョニング ===");
+        console.log("^1.2.3  # 1.x.x の最新版");
+        console.log("~1.2.3  # 1.2.x の最新版");
+        console.log("1.2.3   # 厳密にこのバージョン");
+        
+        displayResult('result-npm-basics');
+    };
 
-  // DOM読み込み完了後に初期化実行
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initialize);
-  } else {
-    initialize();
-  }
-
-})(); 
+})();

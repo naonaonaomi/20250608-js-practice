@@ -1,228 +1,133 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>JavaScript練習【DOM操作・イベント編】</title>
-  <link rel="stylesheet" href="../css/style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JavaScript練習【ES6+モジュール編】</title>
+    <link rel="stylesheet" href="../css/style.css">
 </head>
 <body>
-  <header class="global-header">
-    <div class="header-inner">
-      <a href="../index.html" class="header-title">JavaScript</a>
-    </div>
-  </header>
-  <main>
-    <section id="dom-get">
-      <h2>10. DOM要素の取得</h2>
-      <p>様々な方法でHTML要素を取得する方法を学びます。</p>
-      <pre><code>let element1 = document.getElementById('sample');
-let element2 = document.querySelector('.sample-class');
-let element3 = document.querySelector('div');
-
-console.log("ID:", element1.textContent);
-console.log("クラス:", element2.textContent);</code></pre>
-      <button id="btn-dom-get">実行してみる</button>
-      <div id="sample" class="sample-class" style="border: 1px solid #ccc; padding: 10px; margin: 10px 0;">サンプル要素</div>
-      <div class="result" id="result-dom-get"></div>
-    </section>
-
-    <section id="event-listener">
-      <h2>11. クリックイベントの処理</h2>
-      <p>ボタンがクリックされた時の処理を設定する方法を学びます。</p>
-      <pre><code>let button = document.getElementById('btn-event');
-
-button.addEventListener('click', function() {
-    console.log("クリックされました！");
-    console.log("時刻:", new Date().toLocaleTimeString());
-});</code></pre>
-      <button id="btn-event">クリックしてみて！</button>
-      <div class="result" id="result-event"></div>
-    </section>
-
-    <section id="form-input">
-      <h2>12. フォーム入力の取得</h2>
-      <p>入力フィールドの値を取得し、フォーム送信を制御する方法を学びます。</p>
-      <pre><code>let form = document.getElementById('sample-form');
-let input = document.getElementById('input-text');
-
-form.addEventListener('submit', function(event) {
-    event.preventDefault();
-    let value = input.value;
-    if (value.trim() === "") {
-        console.log("エラー: 名前を入力してください");
-    } else {
-        console.log(`こんにちは、${value}さん！`);
-    }
-});</code></pre>
-      <form id="sample-form">
-        <input type="text" id="input-text" placeholder="名前を入力">
-        <button type="submit">送信</button>
-      </form>
-      <div class="result" id="result-form"></div>
-    </section>
-
-    <section id="classlist">
-      <h2>13. CSSクラスの操作</h2>
-      <pre><code>let target = document.getElementById('class-target');
-
-document.getElementById('btn-add').addEventListener('click', () => {
-    target.classList.add('active');
-    console.log("activeクラス追加");
-});
-
-document.getElementById('btn-toggle').addEventListener('click', () => {
-    target.classList.toggle('active');
-    console.log("activeクラス切り替え");
-});</code></pre>
-      <p>要素のCSSクラスを動的に追加・削除・切り替える方法を学びます。</p>
-      <div id="class-target" class="box" style="border: 1px solid #ccc; padding: 20px; margin: 10px 0; transition: all 0.3s;">クラス操作対象</div>
-      <button id="btn-add" style="margin: 5px; padding: 8px; background: #4CAF50; color: white; border: none; border-radius: 4px;">activeクラス追加</button>
-      <button id="btn-remove" style="margin: 5px; padding: 8px; background: #f44336; color: white; border: none; border-radius: 4px;">activeクラス削除</button>
-      <button id="btn-toggle" style="margin: 5px; padding: 8px; background: #FF9800; color: white; border: none; border-radius: 4px;">activeクラス切替</button>
-      <div class="result" id="result-classlist"></div>
-    </section>
-
-    <section id="style-change">
-      <h2>14. 要素のスタイル変更</h2>
-      <p>JavaScriptから直接要素のスタイルを変更する方法を学びます。</p>
-      <pre><code>let styleTarget = document.getElementById('style-target');
-
-document.getElementById('btn-style').addEventListener('click', () => {
-    styleTarget.style.color = "white";
-    styleTarget.style.backgroundColor = "red";
-    styleTarget.style.fontSize = "20px";
-    console.log("スタイル変更完了");
-});</code></pre>
-      <div id="style-target" class="box" style="border: 1px solid #ccc; padding: 20px; margin: 10px 0; transition: all 0.3s;">スタイル変更対象</div>
-      <button id="btn-style" style="margin: 5px; padding: 8px; background: #9C27B0; color: white; border: none; border-radius: 4px;">スタイルを変更</button>
-      <button id="btn-reset-style" style="margin: 5px; padding: 8px; background: #607D8B; color: white; border: none; border-radius: 4px;">スタイルをリセット</button>
-      <div class="result" id="result-style"></div>
-    </section>
-
-    <section id="node-manipulation">
-      <h2>15. 要素の追加と削除</h2>
-      <p>新しい要素を作成して追加・削除する方法を学びます。</p>
-      <pre><code>let nodeArea = document.getElementById('node-area');
-let addedElement = null;
-
-document.getElementById('btn-add-node').addEventListener('click', () => {
-    if (!addedElement) {
-        addedElement = document.createElement('div');
-        addedElement.textContent = '新しく追加された要素！';
-        addedElement.style.backgroundColor = '#e1f5fe';
-        addedElement.style.padding = '10px';
-        nodeArea.appendChild(addedElement);
-        console.log("要素を追加しました");
-    }
-});</code></pre>
-      <button id="btn-add-node" style="margin: 5px; padding: 8px; background: #4CAF50; color: white; border: none; border-radius: 4px;">要素を追加</button>
-      <button id="btn-remove-node" style="margin: 5px; padding: 8px; background: #f44336; color: white; border: none; border-radius: 4px;">要素を削除</button>
-      <div id="node-area" style="border: 1px dashed #ccc; min-height: 50px; padding: 10px; margin: 10px 0;"></div>
-      <div class="result" id="result-node"></div>
-    </section>
-
-    <section id="class-instance">
-      <h2>16. クラスとインスタンス</h2>
-      <p>JavaScriptのclass構文を使ったオブジェクト指向プログラミングを学びます。</p>
-      <pre><code>class Animal {
-    constructor(name, species) {
-        this.name = name;
-        this.species = species;
-    }
-    greet() {
-        return `こんにちは、${this.species}の${this.name}です！`;
-    }
-}
-
-let dog = new Animal('ポチ', '犬');
-let cat = new Animal('ミケ', '猫');
-console.log(dog.greet());
-console.log(cat.greet());</code></pre>
-      <button id="btn-class">実行してみる</button>
-      <div class="result" id="result-class"></div>
-    </section>
-
-    <section id="json-data">
-      <h2>17. JSON データの操作</h2>
-      <p>データをJSON形式で保存・読み込みする方法を学びます。</p>
-      <pre><code>let user = {
-    name: "田中太郎",
-    age: 25,
-    hobbies: ["読書", "映画", "プログラミング"]
-};
-
-let jsonString = JSON.stringify(user);
-let parsedUser = JSON.parse(jsonString);
-
-console.log("JSON文字列:", jsonString);
-console.log("名前:", parsedUser.name);
-console.log("趣味:", parsedUser.hobbies.join(", "));</code></pre>
-      <button id="btn-json">実行してみる</button>
-      <div class="result" id="result-json"></div>
-    </section>
-
-    <section id="local-storage">
-      <h2>18. ローカルストレージ</h2>
-      <p>ブラウザにデータを保存・取得する方法を学びます。</p>
-      <pre><code>let message = document.getElementById('storage-input').value;
-localStorage.setItem('userMessage', message);
-console.log("保存しました:", message);
-
-let savedMessage = localStorage.getItem('userMessage');
-console.log("取得しました:", savedMessage);</code></pre>
-      <div style="margin: 10px 0;">
-        <input type="text" id="storage-input" placeholder="保存したいメッセージを入力" style="width: 70%; padding: 8px; margin-right: 10px;">
-        <button id="btn-save-storage" style="padding: 8px 16px;">保存</button>
-      </div>
-      <button id="btn-storage">データを取得</button>
-      <button id="btn-clear-storage" style="background: #f44336;">データを削除</button>
-      <div class="result" id="result-storage"></div>
-    </section>
-
-    <section id="timer-functions">
-      <h2>19. タイマー機能</h2>
-      <p>時間を使った処理（遅延実行・繰り返し実行）を学びます。</p>
-      <pre><code>let seconds = 0;
-let timerInterval = null;
-
-// タイマー開始
-function startTimer() {
-    if (timerInterval === null) {
-        timerInterval = setInterval(() => {
-            seconds++;
-            let minutes = Math.floor(seconds / 60);
-            let remainingSeconds = seconds % 60;
-            let timeString = `${minutes.toString().padStart(2, '0')}:${remainingSeconds.toString().padStart(2, '0')}`;
+    <header class="global-header">
+        <div class="header-inner">
+            <a href="../index.html" class="header-title">JavaScript</a>
+        </div>
+    </header>
+    
+    <main>
+        <div class="container">
+            <h2>JavaScript ES6+モジュール編</h2>
+            <p>モダンなJavaScriptの機能とモジュールシステムを学習します。<br>
+            実際のプロジェクトで使われる最新の機能を理解しましょう。</p>
             
-            document.getElementById('timer-display').textContent = timeString;
-            console.log("経過時間:", timeString);
-        }, 1000);
-        console.log("タイマーを開始しました");
-    }
+            <section class="section">
+                <h3>10. ES6モジュール（import/export）</h3>
+                <p>モジュールを使ってコードを分割し、再利用可能にする方法を学びます。</p>
+                <div class="code-result-container">
+                    <div>
+                        <pre><code>// ES6モジュール例
+export function add(a, b) {
+    return a + b;
 }
 
-// タイマー停止
-function stopTimer() {
-    if (timerInterval !== null) {
-        clearInterval(timerInterval);
-        timerInterval = null;
-        seconds = 0;
-        document.getElementById('timer-display').textContent = "00:00";
-        console.log("タイマーを停止しました");
-    }
-}</code></pre>
-      <div id="timer-display" style="font-size: 24px; font-weight: bold; text-align: center; padding: 20px; background: #f0f8ff; border-radius: 10px; margin: 10px 0;">00:00</div>
-      <button id="btn-start-timer">タイマー開始</button>
-      <button id="btn-stop-timer" style="background: #f44336;">タイマー停止</button>
-      <div class="result" id="result-timer"></div>
-    </section>
+import { add } from './math.js';
+console.log("加算:", add(5, 3));</code></pre>
+                        <button class="btn" onclick="runModuleExample()">実行してみる</button>
+                    </div>
+                    <div class="result" id="result-module"></div>
+                </div>
+            </section>
 
-    <div style="text-align:center; margin: 0 0 20px 0;">
-      <button onclick="location.href='basic1-5.html'">◀ ES6+モジュール編へ</button>
-      <button onclick="location.href='basic2-5.html'">テスト・品質編へ ▶</button>
-    </div>
-  </main>
-  <script src="../js/basic2.js"></script>
+            <section class="section">
+                <h3>11. デフォルトエクスポート</h3>
+                <p>モジュールのメイン機能をデフォルトエクスポートとして定義する方法を学びます。</p>
+                <div class="code-result-container">
+                    <div>
+                        <pre><code>// デフォルトエクスポート例
+export default class Calculator {
+    add(a, b) { return a + b; }
+}
+
+import Calculator from './calculator.js';
+const calc = new Calculator();
+console.log("結果:", calc.add(10, 5));</code></pre>
+                        <button class="btn" onclick="runDefaultExportExample()">実行してみる</button>
+                    </div>
+                    <div class="result" id="result-default-export"></div>
+                </div>
+            </section>
+
+            <section class="section">
+                <h3>12. 動的インポート</h3>
+                <p>必要な時にモジュールを動的に読み込む方法を学びます。</p>
+                <div class="code-result-container">
+                    <div>
+                        <pre><code>// 動的インポート例
+async function loadModule() {
+    const module = await import('./math.js');
+    console.log("動的読み込み成功");
+    return module.add(15, 25);
+}</code></pre>
+                        <button class="btn" onclick="runDynamicImportExample()">実行してみる</button>
+                    </div>
+                    <div class="result" id="result-dynamic-import"></div>
+                </div>
+            </section>
+
+            <section class="section">
+                <h3>13. Optional Chaining（?.）</h3>
+                <p>安全にオブジェクトのプロパティにアクセスする方法を学びます。</p>
+                <div class="code-result-container">
+                    <div>
+                        <pre><code>const user = { address: { city: "東京" } };
+const emptyUser = {};
+
+// Optional Chaining（安全なアクセス）
+console.log("都市1:", user.address?.city);
+console.log("都市2:", emptyUser.address?.city);</code></pre>
+                        <button class="btn" onclick="runOptionalChainingExample()">実行してみる</button>
+                    </div>
+                    <div class="result" id="result-optional-chaining"></div>
+                </div>
+            </section>
+
+            <section class="section">
+                <h3>14. Nullish Coalescing（??）</h3>
+                <p>null や undefined の場合のデフォルト値を設定する方法を学びます。</p>
+                <div class="code-result-container">
+                    <div>
+                        <pre><code>const config = { theme: null, timeout: 0 };
+
+// ?? 演算子（Nullish Coalescing）
+console.log("テーマ:", config.theme ?? "デフォルト");
+console.log("タイムアウト:", config.timeout ?? 5000);</code></pre>
+                        <button class="btn" onclick="runNullishCoalescingExample()">実行してみる</button>
+                    </div>
+                    <div class="result" id="result-nullish-coalescing"></div>
+                </div>
+            </section>
+
+            <section class="section">
+                <h3>15. パッケージマネージャー（npm基礎）</h3>
+                <p>npmを使ったパッケージ管理の基本概念を学びます。</p>
+                <div class="code-result-container">
+                    <div>
+                        <pre><code>// npm基本コマンド例
+console.log("npm install lodash");
+console.log("npm run start");
+console.log("npm update");</code></pre>
+                        <button class="btn" onclick="runNpmBasicsExample()">実行してみる</button>
+                    </div>
+                    <div class="result" id="result-npm-basics"></div>
+                </div>
+            </section>
+
+            <div style="text-align:center; margin: 0 0 20px 0;">
+                <button onclick="location.href='basic1.html'">◀ 基礎編へ</button>
+                <button onclick="location.href='basic3.html'">応用編へ ▶</button>
+            </div>
+        </div>
+    </main>
+
+    <script src="../js/basic2.js"></script>
 </body>
-</html>  
+</html>    
