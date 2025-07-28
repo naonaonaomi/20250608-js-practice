@@ -11,18 +11,9 @@
   // ユーティリティ関数
   // ========================================
 
-  /**
-   * DOM要素を取得するユーティリティ関数
-   * @param {string} id - 要素のID
-   * @returns {HTMLElement|null} DOM要素
-   */
   const $ = (id) => document.getElementById(id);
 
-  /**
-   * コンソール出力をキャプチャして画面に表示する関数
-   * @param {Function} func - 実行する関数
-   * @returns {Array} 出力の配列
-   */
+  //コンソール出力をキャプチャして画面に表示する関数
   function captureConsoleOutput(func) {
     const output = [];
     const originalLog = console.log;
@@ -49,11 +40,7 @@
     return output;
   }
 
-  /**
-   * 結果を画面に表示する関数
-   * @param {HTMLElement} resultElement - 結果表示要素
-   * @param {Array|string} output - 表示する内容
-   */
+  //結果を画面に表示する関数
   function displayResult(resultElement, output) {
     if (Array.isArray(output)) {
       resultElement.innerHTML = output.map(line => `<div>${line}</div>`).join('');
