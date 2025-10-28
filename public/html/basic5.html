@@ -1,66 +1,74 @@
 <!DOCTYPE html>
 <html lang="ja">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>JavaScript練習【上級編】</title>
-  <link rel="stylesheet" href="../css/style.css">
-</head>
-<body>
-  <header class="global-header">
-    <div class="header-inner">
-      <a href="../index.html" class="header-title">JavaScript</a>
-    </div>
-  </header>
-  <main>
-    <section id="intro">
-      <h2>上級編：高度な概念</h2>
-      <p>非同期処理、スコープ、プロトタイプなど、JavaScriptの高度な概念を学びます。</p>
-    </section>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>JavaScript練習【上級編】</title>
+    <link rel="stylesheet" href="../css/style.css" />
+  </head>
+  <body>
+    <header class="global-header">
+      <div class="header-inner">
+        <a href="../index.html" class="header-title">JavaScript</a>
+      </div>
+    </header>
+    <main>
+      <section id="intro">
+        <h2>上級編：高度な概念</h2>
+        <p>
+          非同期処理、スコープ、プロトタイプなど、JavaScriptの高度な概念を学びます。
+        </p>
+      </section>
 
-    <!-- 1. 非同期処理 セクション開始 -->
-    <section id="section1">
-      <h2>1. 非同期処理（Promise）</h2>
-      <p>Promiseを使った非同期処理の基本を学びます。</p>
-      <div class="code-result-container">
-        <div>
-          <pre><code>const promise = new Promise((resolve) => {
+      <!-- 1. 非同期処理 セクション開始 -->
+      <section id="section1">
+        <h2>1. 非同期処理（Promise）</h2>
+        <p>
+          【ポイント】Promiseで非同期処理を管理し、成功(resolve)・失敗(reject)の状態を制御します。
+        </p>
+        <div class="code-result-container">
+          <div>
+            <pre><code>const promise = new Promise((resolve) => {
     setTimeout(() => resolve("完了！"), 1000);
 });
 
 promise.then(result => console.log(result));</code></pre>
-          <button id="btn1">実行してみる</button>
+            <button id="btn1">実行してみる</button>
+          </div>
+          <div class="result" id="result1"></div>
         </div>
-        <div class="result" id="result1"></div>
-      </div>
-    </section>
+      </section>
 
-    <!-- 2. async/await セクション開始 -->
-    <section id="section2">
-      <h2>2. async/await</h2>
-      <p>より読みやすい非同期処理の書き方を学びます。</p>
-      <div class="code-result-container">
-        <div>
-          <pre><code>async function fetchData() {
+      <!-- 2. async/await セクション開始 -->
+      <section id="section2">
+        <h2>2. async/await</h2>
+        <p>
+          【ポイント】async/awaitで非同期処理を同期的に記述し、エラーハンドリングもtry-catchで統一します。
+        </p>
+        <div class="code-result-container">
+          <div>
+            <pre><code>async function fetchData() {
     console.log("データ取得開始");
     await new Promise(resolve => setTimeout(resolve, 500));
     console.log("データ取得完了");
 }
 
 fetchData();</code></pre>
-          <button id="btn2">実行してみる</button>
+            <button id="btn2">実行してみる</button>
+          </div>
+          <div class="result" id="result2"></div>
         </div>
-        <div class="result" id="result2"></div>
-      </div>
-    </section>
+      </section>
 
-    <!-- 3. クロージャ セクション開始 -->
-    <section id="section3">
-      <h2>3. クロージャ</h2>
-      <p>関数のスコープとクロージャの概念を学びます。</p>
-      <div class="code-result-container">
-        <div>
-          <pre><code>function counter() {
+      <!-- 3. クロージャ セクション開始 -->
+      <section id="section3">
+        <h2>3. クロージャ</h2>
+        <p>
+          【ポイント】内側の関数が外側のスコープにアクセスし、外部から内部変数を保護する仕組みを理解します。
+        </p>
+        <div class="code-result-container">
+          <div>
+            <pre><code>function counter() {
     let count = 0;
     return function() {
         count++;
@@ -71,19 +79,21 @@ fetchData();</code></pre>
 const myCounter = counter();
 console.log(myCounter());
 console.log(myCounter());</code></pre>
-          <button id="btn3">実行してみる</button>
+            <button id="btn3">実行してみる</button>
+          </div>
+          <div class="result" id="result3"></div>
         </div>
-        <div class="result" id="result3"></div>
-      </div>
-    </section>
+      </section>
 
-    <!-- 4. プロトタイプ セクション開始 -->
-    <section id="section4">
-      <h2>4. プロトタイプ</h2>
-      <p>JavaScriptのプロトタイプベースの継承を学びます。</p>
-      <div class="code-result-container">
-        <div>
-          <pre><code>function Animal(name) {
+      <!-- 4. プロトタイプ セクション開始 -->
+      <section id="section4">
+        <h2>4. プロトタイプ</h2>
+        <p>
+          【ポイント】prototypeプロパティでメソッドを共有し、メモリ効率的なオブジェクト指向プログラミングを実現します。
+        </p>
+        <div class="code-result-container">
+          <div>
+            <pre><code>function Animal(name) {
     this.name = name;
 }
 
@@ -93,17 +103,21 @@ Animal.prototype.speak = function() {
 
 const dog = new Animal("ポチ");
 console.log(dog.speak());</code></pre>
-          <button id="btn4">実行してみる</button>
+            <button id="btn4">実行してみる</button>
+          </div>
+          <div class="result" id="result4"></div>
         </div>
-        <div class="result" id="result4"></div>
-      </div>
-    </section>
+      </section>
 
-    <div style="text-align:center; margin: 0 0 20px 0;">
-      <button onclick="location.href='basic4.html'">◀ テスト・品質編へ</button>
-      <button onclick="location.href='basic6.html'">セキュリティ・実践編へ ▶</button>
-    </div>
-  </main>
-  <script src="../js/basic5.js"></script>
-</body>
+      <div style="text-align: center; margin: 0 0 20px 0">
+        <button onclick="location.href='basic4.html'">
+          ◀ テスト・品質編へ
+        </button>
+        <button onclick="location.href='basic6.html'">
+          セキュリティ・実践編へ ▶
+        </button>
+      </div>
+    </main>
+    <script src="../js/basic5.js"></script>
+  </body>
 </html>

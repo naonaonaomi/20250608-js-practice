@@ -21,7 +21,7 @@
     <!-- 1. XSS対策 セクション開始 -->
     <section id="section1">
       <h2>1. XSS対策</h2>
-      <p>クロスサイトスクリプティング攻撃を防ぐ方法を学びます。</p>
+      <p>【ポイント】ユーザー入力をサニタイズしてHTMLエスケープし、悪意のあるスクリプトの実行を防ぎます。</p>
       <div class="code-result-container">
         <div>
           <pre><code>function sanitizeInput(input) {
@@ -40,7 +40,7 @@ console.log("安全な文字列:", safe);</code></pre>
     <!-- 2. データ検証 セクション開始 -->
     <section id="section2">
       <h2>2. データ検証</h2>
-      <p>ユーザー入力の検証パターンを学びます。</p>
+      <p>【ポイント】正規表現で入力値の形式を検証し、不正なデータを防止してアプリケーションを保護します。</p>
       <div class="code-result-container">
         <div>
           <pre><code>function validateEmail(email) {
@@ -59,7 +59,7 @@ console.log("無効:", validateEmail("invalid-email"));</code></pre>
     <!-- 3. パフォーマンス最適化 セクション開始 -->
     <section id="section3">
       <h2>3. パフォーマンス最適化</h2>
-      <p>効率的なコードの書き方を学びます。</p>
+      <p>【ポイント】console.time/timeEndやperformance.now()で処理時間を測定し、ボトルネックを特定します。</p>
       <div class="code-result-container">
         <div>
           <pre><code>console.time("処理時間");

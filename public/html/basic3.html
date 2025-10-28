@@ -1,64 +1,73 @@
 <!DOCTYPE html>
 <html lang="ja">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>JavaScript練習【応用編】</title>
-    <link rel="stylesheet" href="../css/style.css">
-</head>
-<body>
+    <link rel="stylesheet" href="../css/style.css" />
+  </head>
+  <body>
     <header class="global-header">
-        <div class="header-inner">
-            <a href="../index.html" class="header-title">JavaScript</a>
-        </div>
+      <div class="header-inner">
+        <a href="../index.html" class="header-title">JavaScript</a>
+      </div>
     </header>
-    
-    <main>
-        <section id="intro">
-            <h2>DOM操作とイベント処理</h2>
-            <p>HTML要素の操作やユーザーのアクションに応じた処理を学びます。</p>
-        </section>
 
-        <section id="section1">
-            <h2>1. DOM要素の取得</h2>
-            <p>様々な方法でHTML要素を取得する方法を学びます。</p>
-            <div class="code-result-container">
-                <div>
-                    <pre><code>let element1 = document.getElementById('sample');
+    <main>
+      <section id="intro">
+        <h2>DOM操作とイベント処理</h2>
+        <p>HTML要素の操作やユーザーのアクションに応じた処理を学びます。</p>
+      </section>
+
+      <!-- 1. DOM要素の取得 セクション開始 -->
+      <section id="section1">
+        <h2>1. DOM要素の取得</h2>
+        <p>
+          【ポイント】getElementById、querySelector、querySelectorAllなどの各種メソッドで要素を取得します。
+        </p>
+        <div class="code-result-container">
+          <div>
+            <pre><code>let element1 = document.getElementById('sample');
 let element2 = document.querySelector('.sample-class');
 let element3 = document.querySelectorAll('div');
 
 console.log("ID:", element1);
 console.log("クラス:", element2);</code></pre>
-                    <button id="btn1">実行してみる</button>
-                </div>
-                <div class="result" id="result1"></div>
-            </div>
-        </section>
+            <button id="btn1">実行してみる</button>
+          </div>
+          <div class="result" id="result1"></div>
+        </div>
+      </section>
 
-        <section id="section2">
-            <h2>2. クリックイベントの処理</h2>
-            <p>ボタンがクリックされた時の処理を設定する方法を学びます。</p>
-            <div class="code-result-container">
-                <div>
-                    <pre><code>let button = document.getElementById('btn-event');
+      <!-- 2. クリックイベントの処理 セクション開始 -->
+      <section id="section2">
+        <h2>2. クリックイベントの処理</h2>
+        <p>
+          【ポイント】addEventListener('click')でイベントリスナーを登録し、ユーザー操作に応じた処理を実行します。
+        </p>
+        <div class="code-result-container">
+          <div>
+            <pre><code>let button = document.getElementById('btn-event');
 
 button.addEventListener('click', function() {
     console.log('クリックされました!');
     console.log('時刻:', new Date().toLocaleTimeString());
 });</code></pre>
-                    <button id="btn2">実行してみる</button>
-                </div>
-                <div class="result" id="result2"></div>
-            </div>
-        </section>
+            <button id="btn2">実行してみる</button>
+          </div>
+          <div class="result" id="result2"></div>
+        </div>
+      </section>
 
-        <section id="section3">
-            <h2>3. フォーム入力の取得</h2>
-            <p>入力フィールドの値を取得し、フォーム送信を制御する方法を学びます。</p>
-            <div class="code-result-container">
-                <div>
-                    <pre><code>let form = document.getElementById('sample-form');
+      <!-- 3. フォーム入力の取得 セクション開始 -->
+      <section id="section3">
+        <h2>3. フォーム入力の取得</h2>
+        <p>
+          【ポイント】input要素のvalueプロパティで値を取得し、preventDefault()でフォーム送信を制御します。
+        </p>
+        <div class="code-result-container">
+          <div>
+            <pre><code>let form = document.getElementById('sample-form');
 let input = document.getElementById('input-text');
 
 form.addEventListener('submit', function(event) {
@@ -66,17 +75,21 @@ form.addEventListener('submit', function(event) {
     let value = input.value;
     console.log("入力値:", value);
 });</code></pre>
-                    <button id="btn3">実行してみる</button>
-                </div>
-                <div class="result" id="result3"></div>
-            </div>
-        </section>
-
-        <div style="text-align:center; margin: 0 0 20px 0;">
-            <button onclick="location.href='basic2.html'">◀ ES6+モジュール編へ</button>
-            <button onclick="location.href='basic4.html'">テスト・品質編へ ▶</button>
+            <button id="btn3">実行してみる</button>
+          </div>
+          <div class="result" id="result3"></div>
         </div>
+      </section>
+
+      <div style="text-align: center; margin: 0 0 20px 0">
+        <button onclick="location.href='basic2.html'">
+          ◀ ES6+モジュール編へ
+        </button>
+        <button onclick="location.href='basic4.html'">
+          テスト・品質編へ ▶
+        </button>
+      </div>
     </main>
     <script src="../js/basic3.js"></script>
-</body>
+  </body>
 </html>
